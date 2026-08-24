@@ -1,414 +1,498 @@
-<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>AHC公会 · 公告板</title>
-    <style>
-        :root {
-            --bg: #0b0f16;
-            --card-bg: #141a24;
-            --card-border: #27303f;
-            --text: #e8e6e0;
-            --text-soft: #b9b3a6;
-            --muted: #8a91a0;
-            --gold: #d9b86a;
-            --gold-bright: #f0d48a;
-            --gold-dim: #a88c4a;
-            --red: #ff6b6b;
-            --red-bg: rgba(255, 80, 80, 0.1);
-            --radius: 16px;
-            --shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>AHC 公会 · 游戏殿堂</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-deep: #030609;
+      --card-bg: rgba(12, 18, 26, 0.88);
+      --card-border-glow: rgba(210, 180, 110, 0.25);
+      --text-primary: #f0ebe0;
+      --text-soft: #cdc5b5;
+      --muted-gold: #9a8b6e;
+      --gold: #d9b86a;
+      --gold-bright: #f3e0a8;
+      --gold-dim: #a88c4a;
+      --gold-glow: rgba(210, 175, 100, 0.3);
+      --shadow-heavy: 0 30px 60px rgba(0,0,0,0.9);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --font-display: 'Cormorant Garamond', 'Inter', 'Segoe UI', 'PingFang SC', serif;
+      --font-body: 'Inter', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--text-primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.8rem 1.2rem;
+      background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center 20%;
+      background-attachment: fixed;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 30% 40%, rgba(10, 15, 25, 0.65), rgba(2, 4, 8, 0.90));
+      backdrop-filter: blur(5px) saturate(0.6);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .announcement-wrapper {
+      position: relative;
+      z-index: 2;
+      max-width: 1160px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid rgba(210, 180, 110, 0.18);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-heavy), 0 0 0 1px rgba(210, 180, 110, 0.06) inset;
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    .card-header {
+      background: linear-gradient(160deg, rgba(25, 32, 45, 0.95), rgba(8, 12, 20, 0.98));
+      padding: 2.4rem 2.2rem 1.8rem;
+      text-align: center;
+      border-bottom: 2px solid var(--gold-dim);
+      position: relative;
+      box-shadow: inset 0 1px 0 rgba(255, 215, 150, 0.08), 0 12px 30px -10px rgba(0,0,0,0.8);
+    }
+    .card-header::after {
+      content: "⚔️";
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #141b26;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 0 30px rgba(200, 160, 80, 0.5), inset 0 0 12px rgba(255, 215, 150, 0.3);
+    }
+    .guild-name {
+      font-family: var(--font-display);
+      font-size: 4.2rem;
+      font-weight: 700;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #f7efd0, #d9b86a, #b8974a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 50px rgba(200, 170, 80, 0.25);
+      margin-bottom: 0.1rem;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.5));
+      line-height: 1.1;
+    }
+    .subhead {
+      font-family: var(--font-display);
+      font-style: italic;
+      letter-spacing: 5px;
+      color: #d6cdb8;
+      font-weight: 400;
+      font-size: 1rem;
+      background: rgba(0, 0, 0, 0.5);
+      display: inline-block;
+      padding: 0.3rem 2.4rem;
+      border-radius: 60px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(200, 175, 100, 0.2);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+    }
+    .top-nav {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.8rem 0.5rem;
+      background: rgba(0, 0, 0, 0.5);
+      border-bottom: 1px solid rgba(255, 215, 150, 0.06);
+      flex-wrap: wrap;
+      backdrop-filter: blur(6px);
+    }
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-soft);
+      padding: 0.5rem 1.8rem;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      font-family: var(--font-body);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-btn:hover {
+      background: rgba(210, 180, 110, 0.12);
+      border-color: var(--gold);
+      color: var(--gold-bright);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5), 0 0 20px rgba(200,160,80,0.15);
+    }
+    .nav-btn.active {
+      background: rgba(210, 180, 110, 0.20);
+      border-color: var(--gold);
+      color: var(--gold-bright);
+      box-shadow: 0 0 30px rgba(200,160,80,0.2), inset 0 0 20px rgba(200,160,80,0.05);
+    }
+    .nav-icon { font-size: 1.1rem; filter: drop-shadow(0 0 4px rgba(0,0,0,0.4)); }
+    .content { padding: 2.6rem 2.6rem 2.8rem; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(4px); }
+    .notice-banner {
+      background: linear-gradient(145deg, rgba(200, 70, 70, 0.15), rgba(20, 18, 24, 0.8));
+      border: 1px solid rgba(255, 120, 120, 0.3);
+      border-radius: 100px;
+      padding: 0.8rem 2.2rem;
+      margin-bottom: 2.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 200, 150, 0.1);
+      backdrop-filter: blur(6px);
+    }
+    .notice-label { font-weight: 700; font-size: 1.1rem; color: #ffd4d4; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; font-family: var(--font-display); }
+    .notice-value { font-size: 1.2rem; font-weight: 700; background: rgba(0, 0, 0, 0.6); padding: 0.2rem 2.4rem; border-radius: 60px; color: #fae6c0; letter-spacing: 3px; border: 1px solid rgba(255, 215, 150, 0.3); box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); backdrop-filter: blur(4px); font-family: var(--font-display); }
+    .section { margin-bottom: 2.8rem; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 1.4rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(200, 170, 100, 0.15);
+      position: relative;
+    }
+    .section-header::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dim));
+      box-shadow: 0 0 20px rgba(220, 180, 100, 0.4);
+      border-radius: 6px;
+    }
+    .section-icon { font-size: 1.9rem; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5)); }
+    .section-title { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; letter-spacing: 3px; color: #f2e8d0; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+    .info-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-lg);
+      padding: 1.6rem 2.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.8rem;
+      align-items: center;
+      backdrop-filter: blur(6px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 10px 30px -10px rgba(0,0,0,0.4);
+    }
+    .info-pair { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+    .info-key { font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 3px; color: var(--muted-gold); background: rgba(0,0,0,0.3); padding: 0.15rem 1rem; border-radius: 40px; border: 1px solid rgba(255,255,255,0.04); }
+    .info-value { font-weight: 600; font-size: 1.15rem; color: #f5efe2; letter-spacing: 0.5px; }
+    .ip-value { background: rgba(210, 175, 100, 0.12); border: 1px solid rgba(210, 175, 100, 0.4); padding: 0.2rem 1.6rem; border-radius: 60px; color: var(--gold-bright); letter-spacing: 2px; font-weight: 700; box-shadow: 0 0 20px rgba(200,160,80,0.15); font-family: var(--font-display); }
+    .rule-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .rule-list li { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: var(--radius-md); padding: 0.7rem 1.8rem; display: flex; align-items: flex-start; gap: 1rem; font-size: 0.95rem; line-height: 1.6; transition: all 0.25s ease; backdrop-filter: blur(4px); box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+    .rule-list li:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(210, 175, 100, 0.3); transform: translateX(6px); box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+    .rule-list li::before { content: "✦"; color: var(--gold); font-size: 0.9rem; margin-top: 0.1rem; flex-shrink: 0; text-shadow: 0 0 16px rgba(200,160,80,0.5); opacity: 0.8; }
+    .rule-list li strong { color: var(--gold-bright); font-weight: 700; letter-spacing: 0.3px; }
+    .building-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+    .building-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: var(--radius-md); padding: 0.9rem 1.4rem; display: flex; align-items: center; gap: 1rem; font-weight: 600; font-size: 0.98rem; transition: all 0.3s ease; backdrop-filter: blur(6px); box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+    .building-card:hover { background: rgba(255, 255, 255, 0.07); border-color: rgba(210, 175, 100, 0.5); transform: translateY(-5px) scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 30px rgba(200,160,80,0.08); }
+    .building-icon { font-size: 1.6rem; filter: drop-shadow(0 0 8px rgba(0,0,0,0.6)); }
+    .footer-spirit { margin-top: 3rem; text-align: center; font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; letter-spacing: 6px; color: #f3e2b8; background: linear-gradient(145deg, rgba(35, 30, 20, 0.7), rgba(12, 16, 24, 0.9)); padding: 1.2rem 1.8rem; border-radius: 80px; border: 1px solid rgba(210, 175, 100, 0.2); box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 215, 150, 0.1); backdrop-filter: blur(8px); }
+    .update-tag { text-align: right; margin-top: 1.4rem; font-size: 0.8rem; color: #6b7385; letter-spacing: 2px; font-style: italic; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 1.2rem; font-family: var(--font-display); }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    /* 游戏卡片 */
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem;
+      margin: 1.5rem 0;
+    }
+    .game-card {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(210, 180, 110, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 1.2rem 1.6rem 1.6rem;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      transition: 0.3s ease;
+    }
+    .game-card:hover { border-color: var(--gold); box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 20px rgba(200,160,80,0.1); }
+    .game-title { font-family: var(--font-display); font-size: 1.5rem; color: var(--gold-bright); margin-bottom: 0.8rem; display: flex; gap: 12px; align-items: center; border-bottom: 1px solid rgba(255,215,150,0.1); padding-bottom: 0.4rem; }
+    .game-area { min-height: 100px; }
+    .game-btn {
+      background: rgba(210, 180, 110, 0.15);
+      border: 1px solid var(--gold-dim);
+      color: var(--gold-bright);
+      padding: 0.2rem 1.2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: var(--font-body);
+    }
+    .game-btn:hover { background: rgba(210, 180, 110, 0.3); border-color: var(--gold); transform: scale(1.05); }
+    .game-input { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #f0ebe0; padding: 0.3rem 0.8rem; border-radius: 40px; font-family: var(--font-body); width: 120px; }
+    .game-input:focus { outline: none; border-color: var(--gold); }
+    .game-result { margin-top: 0.6rem; padding: 0.4rem 0.8rem; background: rgba(0,0,0,0.3); border-radius: 30px; font-size: 0.9rem; border-left: 3px solid var(--gold-dim); }
+    .score-badge { background: rgba(210, 175, 100, 0.2); padding: 0.1rem 1rem; border-radius: 40px; color: var(--gold-bright); font-size: 0.8rem; margin-left: 6px; }
 
-        body {
-            background: var(--bg);
-            background-image:
-                radial-gradient(ellipse at 15% 20%, rgba(50, 70, 110, 0.15) 0%, transparent 55%),
-                radial-gradient(ellipse at 85% 80%, rgba(160, 130, 70, 0.07) 0%, transparent 50%),
-                linear-gradient(160deg, #0a0e15, #10141d);
-            min-height: 100vh;
-            font-family: 'Inter', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
-            color: var(--text);
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 2rem 1rem;
-        }
-
-        .announcement-wrapper {
-            max-width: 880px;
-            width: 100%;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.03);
-            overflow: hidden;
-            transition: all 0.2s;
-        }
-
-        .card-header {
-            background: linear-gradient(145deg, #1a212e, #121722);
-            padding: 2rem 2rem 1.5rem;
-            text-align: center;
-            border-bottom: 2px solid rgba(210, 170, 90, 0.3);
-            position: relative;
-        }
-
-        .card-header::after {
-            content: "⚒️";
-            position: absolute;
-            bottom: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #181e2a;
-            border: 2px solid var(--gold-dim);
-            border-radius: 50%;
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 0 18px rgba(200, 160, 80, 0.3);
-        }
-
-        .guild-name {
-            font-size: 2.8rem;
-            font-weight: 800;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, #f5e3b3, #d9b96a, #c6a24e);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 30px rgba(220, 180, 100, 0.2);
-            margin-bottom: 0.2rem;
-        }
-
-        .subhead {
-            color: #cfc5ad;
-            letter-spacing: 2px;
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .content {
-            padding: 2.2rem 2rem 2.5rem;
-            background: rgba(0, 0, 0, 0.15);
-        }
-
-        .notice-banner {
-            background: linear-gradient(145deg, rgba(255, 70, 80, 0.08), rgba(25, 20, 24, 0.7));
-            border: 1px solid rgba(255, 100, 110, 0.3);
-            border-radius: 14px;
-            padding: 1rem 1.5rem;
-            margin-bottom: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.8rem;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-        }
-
-        .notice-label {
-            font-weight: 700;
-            font-size: 1.15rem;
-            color: #ffc2c5;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .notice-value {
-            font-size: 1.3rem;
-            font-weight: 700;
-            background: rgba(0, 0, 0, 0.35);
-            padding: 0.25rem 1.4rem;
-            border-radius: 30px;
-            color: #ffe0b0;
-            letter-spacing: 2px;
-            border: 1px dashed rgba(255, 215, 150, 0.4);
-        }
-
-        .section {
-            margin-bottom: 2.2rem;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(200, 170, 100, 0.22);
-            position: relative;
-        }
-
-        .section-header::after {
-            content: "";
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 50px;
-            height: 2px;
-            background: var(--gold);
-            box-shadow: 0 0 10px rgba(220, 180, 100, 0.5);
-        }
-
-        .section-icon {
-            font-size: 1.5rem;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: #f0e5cc;
-        }
-
-        .info-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            padding: 1.2rem 1.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .info-pair {
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .info-key {
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.78rem;
-            letter-spacing: 2px;
-            color: var(--muted);
-        }
-
-        .info-value {
-            font-weight: 700;
-            font-size: 1.15rem;
-            color: #fff;
-        }
-
-        .ip-value {
-            background: rgba(210, 175, 100, 0.1);
-            border: 1px solid rgba(210, 175, 100, 0.35);
-            padding: 0.15rem 1rem;
-            border-radius: 30px;
-            color: var(--gold-bright);
-            letter-spacing: 1px;
-        }
-
-        .rule-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.55rem;
-        }
-
-        .rule-list li {
-            background: rgba(255, 255, 255, 0.015);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
-            padding: 0.65rem 1.2rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.8rem;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-            backdrop-filter: blur(3px);
-        }
-
-        .rule-list li:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(210, 175, 100, 0.35);
-            transform: translateX(3px);
-        }
-
-        .rule-list li::before {
-            content: "◆";
-            color: var(--gold);
-            font-size: 0.75rem;
-            margin-top: 0.2rem;
-            flex-shrink: 0;
-            text-shadow: 0 0 8px rgba(200,160,80,0.5);
-        }
-
-        .building-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 0.7rem;
-        }
-
-        .building-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: 12px;
-            padding: 0.7rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: 0.2s;
-        }
-
-        .building-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(210, 175, 100, 0.4);
-            box-shadow: 0 0 14px rgba(200,160,80,0.1);
-        }
-
-        .building-icon {
-            font-size: 1.35rem;
-            filter: drop-shadow(0 0 4px rgba(0,0,0,0.5));
-        }
-
-        .footer-spirit {
-            margin-top: 2.5rem;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 3px;
-            color: #f3e2b8;
-            background: linear-gradient(145deg, rgba(35, 30, 20, 0.8), rgba(20, 22, 30, 0.9));
-            padding: 1rem;
-            border-radius: 40px;
-            border: 1px solid rgba(210, 175, 100, 0.3);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .update-tag {
-            text-align: right;
-            margin-top: 0.8rem;
-            font-size: 0.85rem;
-            color: #7e8494;
-            letter-spacing: 1px;
-            font-style: italic;
-        }
-
-        @media (max-width: 600px) {
-            body { padding: 0.7rem; }
-            .guild-name { font-size: 2.2rem; letter-spacing: 3px; }
-            .content { padding: 1.5rem 1rem 1.8rem; }
-            .info-card { flex-direction: column; gap: 0.8rem; }
-            .notice-banner { flex-direction: column; align-items: flex-start; }
-            .building-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-            .section-title { font-size: 1.3rem; }
-        }
-    </style>
+    @media (max-width: 720px) {
+      body { padding: 0.6rem; }
+      .guild-name { font-size: 2.8rem; letter-spacing: 5px; }
+      .content { padding: 1.6rem 1.2rem 1.8rem; }
+      .info-card { flex-direction: column; gap: 1.2rem; align-items: stretch; padding: 1.2rem 1.4rem; }
+      .notice-banner { flex-direction: column; align-items: stretch; border-radius: 40px; padding: 0.8rem 1.4rem; }
+      .notice-value { text-align: center; }
+      .building-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .section-title { font-size: 1.5rem; }
+      .card-header { padding: 1.6rem 1rem 1.6rem; }
+      .rule-list li { padding: 0.6rem 1.2rem; font-size: 0.88rem; }
+      .top-nav { gap: 0.3rem; padding: 0.6rem 0.6rem; }
+      .nav-btn { padding: 0.3rem 1.2rem; font-size: 0.75rem; }
+      .subhead { font-size: 0.8rem; padding: 0.2rem 1.6rem; }
+      .game-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <div class="announcement-wrapper">
-        <div class="card-header">
-            <h1 class="guild-name">AHC 公会</h1>
-            <div class="subhead">📌 重要临时通知 · 无</div>
-        </div>
+<div class="announcement-wrapper">
+  <div class="card-header">
+    <h1 class="guild-name">AHC 公会</h1>
+    <div class="subhead">⚜ 王座之侧 · 永恒契约 ⚜</div>
+  </div>
+  <div class="top-nav">
+    <button class="nav-btn active" data-view="all"><span class="nav-icon">🏰</span> 主页</button>
+    <button class="nav-btn" data-view="server"><span class="nav-icon">📡</span> 服务器</button>
+    <button class="nav-btn" data-view="rules"><span class="nav-icon">📜</span> 规则</button>
+    <button class="nav-btn" data-view="buildings"><span class="nav-icon">🏗️</span> 建筑</button>
+    <button class="nav-btn" data-view="games"><span class="nav-icon">🎮</span> 游戏</button>
+  </div>
 
-        <div class="content">
-            <!-- 通知横幅（独立显示，与header呼应） -->
-            <div class="notice-banner">
-                <div class="notice-label">📌 重要临时通知</div>
-                <div class="notice-value">无</div>
-            </div>
-
-            <!-- 📢 服务器信息 -->
-            <div class="section">
-                <div class="section-header">
-                    <span class="section-icon">📢</span>
-                    <span class="section-title">服务器信息</span>
-                </div>
-                <div class="info-card">
-                    <div class="info-pair">
-                        <span class="info-key">服务器IP</span>
-                        <span class="info-value ip-value">mcgame.me</span>
-                    </div>
-                    <div class="info-pair">
-                        <span class="info-key">版本</span>
-                        <span class="info-value">Minecraft JAVA 26.1.2 Fabric</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ⚠️ 进服须知 -->
-            <div class="section">
-                <div class="section-header">
-                    <span class="section-icon">⚠️</span>
-                    <span class="section-title">进服须知</span>
-                </div>
-                <ul class="rule-list">
-                    <li>客户端必须安装 <strong>Fabric加载器</strong>，版本 <strong>0.19.3</strong></li>
-                    <li>建议安装基础优化模组，减少卡顿崩溃</li>
-                    <li>禁止客户端安装破坏平衡的作弊类模组</li>
-                    <li>遇到崩溃、BUG请及时向管理反馈</li>
-                </ul>
-            </div>
-
-            <!-- 🏗️ 公会建筑 -->
-            <div class="section">
-                <div class="section-header">
-                    <span class="section-icon">🏗️</span>
-                    <span class="section-title">公会建筑</span>
-                </div>
-                <div class="building-grid">
-                    <div class="building-card"><span class="building-icon">🌑</span> 小黑塔：xht</div>
-                    <div class="building-card"><span class="building-icon">🔥</span> 烈焰人农场：zyr</div>
-                    <div class="building-card"><span class="building-icon">🐷</span> 猪人塔：zhurenta</div>
-                    <div class="building-card"><span class="building-icon">🏹</span> 掠夺塔：xjt</div>
-                </div>
-            </div>
-
-            <!-- 📜 公会规则 -->
-            <div class="section">
-                <div class="section-header">
-                    <span class="section-icon">📜</span>
-                    <span class="section-title">公会规则</span>
-                </div>
-                <ul class="rule-list">
-                    <li>加入公会可以自由游玩，但禁止熊行为，否则管理会被追责</li>
-                    <li>在公会领地建造、改动设施，需要提前告知管理</li>
-                    <li>遇到问题直接找管理，管理除下午以外基本在线；不咨询就散播小团体言论不予认可</li>
-                    <li>大量取用物资必须提前和管理说明</li>
-                    <li>外来朋友可以临时游玩，请勿长期逗留干扰公会</li>
-                    <li>连续15天未上线将会被踢出，学业、工作特殊情况提前报备除外</li>
-                    <li>每周上交150金币作为公会维护经费，特殊情况可报备，请勿长期拖欠</li>
-                    <li>不主动与其他公会发生冲突，不参与外部凑热闹引战</li>
-                    <li>禁止使用作弊模组，一经发现重罚并直接踢出公会</li>
-                    <li>成功招入一名新公会成员，奖励200金币；小号刷入会不计奖励</li>
-                    <li>禁止私自挪用、拆改公会公共机器与储物物资，公会领地禁止恶意PVP坑害队友</li>
-                    <li>无意损坏公会公共设施请及时上报，隐瞒不报造成损失将予以处罚</li>
-                    <li>成员发生矛盾交由管理调解，禁止私下到处挑起矛盾</li>
-                    <li>主动退会之后，不再享有公会全部公共资源使用权限</li>
-                    <li>公会账号禁止转借他人，转借账号产生的违规行为由账号本人负责</li>
-                    <li>全体成员必须遵守以上全部公会条例</li>
-                </ul>
-            </div>
-
-            <!-- ✨ 公会精神 -->
-            <div class="footer-spirit">
-                ✨ AHC公会｜同心协作，共建生存世界 ✨
-            </div>
-            <div class="update-tag">
-                公告更新：2026‑08‑20
-            </div>
-        </div>
+  <div class="content" id="mainContent">
+    <div class="notice-banner">
+      <span class="notice-label">⚡ 战备通报</span>
+      <span class="notice-value">无 · 秩序井然</span>
     </div>
+
+    <!-- 服务器 -->
+    <div class="section-block" data-section="server">
+      <div class="section">
+        <div class="section-header"><span class="section-icon">📡</span><span class="section-title">服务器 · 界标</span></div>
+        <div class="info-card">
+          <div class="info-pair"><span class="info-key">入口 IP</span><span class="info-value ip-value">mcgame.me</span></div>
+          <div class="info-pair"><span class="info-key">核心版本</span><span class="info-value">Minecraft JAVA 26.1.2 · Fabric</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 进服誓约 -->
+    <div class="section-block" data-section="rules">
+      <div class="section">
+        <div class="section-header"><span class="section-icon">⚔️</span><span class="section-title">进服誓约</span></div>
+        <ul class="rule-list">
+          <li>客户端须搭载 <strong>Fabric 0.19.3</strong> 加载器，保持纯净之力</li>
+          <li>推荐安装基础优化模组，以抵御卡顿与崩溃之扰</li>
+          <li>严禁任何破坏平衡之作弊模组，违者重罚</li>
+          <li>遭遇崩溃或异象，即刻禀报管理，共护秩序</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 建筑 -->
+    <div class="section-block" data-section="buildings">
+      <div class="section">
+        <div class="section-header"><span class="section-icon">🏗️</span><span class="section-title">公会 · 奇观</span></div>
+        <div class="building-grid">
+          <div class="building-card"><span class="building-icon">🌑</span> 黑曜塔 · xht</div>
+          <div class="building-card"><span class="building-icon">🔥</span> 烈焰熔炉 · zyr</div>
+          <div class="building-card"><span class="building-icon">🐷</span> 猪灵祭坛 · zhurenta</div>
+          <div class="building-card"><span class="building-icon">🏹</span> 掠夺哨站 · xjt</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 法典 -->
+    <div class="section-block" data-section="rules">
+      <div class="section">
+        <div class="section-header"><span class="section-icon">📜</span><span class="section-title">公会法典</span></div>
+        <ul class="rule-list">
+          <li>加入公会即享自由开拓之权，然严禁熊行，违者追责至管理</li>
+          <li>公会领地内建造或改动，须事先禀告管理</li>
+          <li>遇事直询管理（除下午外常驻），私下散播流言者不予认可</li>
+          <li>大量取用公储物资，务必提前告知</li>
+          <li>外来友人可临时游历，请勿长期逗留干扰公会秩序</li>
+          <li>连续15日未现，将被除名；学业、要务可提前报备豁免</li>
+          <li>每周缴纳 <strong>150 金币</strong> 作为公会维系之资，特殊可报备，勿长期拖欠</li>
+          <li>不主动与其他公会冲突，不参与外域纷争引战</li>
+          <li>禁用作弊模组，一经发现重罚并逐出公会</li>
+          <li>成功引荐一名新成员，奖 <strong>200 金币</strong>；小号刷入不计</li>
+          <li>严禁私自挪用、拆改公共机器与储物；公会领地内禁止恶意PVP</li>
+          <li>无意损坏公共设施须及时上报，隐瞒不报将受惩戒</li>
+          <li>成员纷争由管理调解，禁止私下挑拨离间</li>
+          <li>主动退会者，不再享有任何公会公共资源之权限</li>
+          <li>公会账号禁止外借，转借产生之违规由本人承担</li>
+          <li><strong>全体成员须恪守以上所有条例，共铸辉煌</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== 游戏区域 ===== -->
+    <div class="section-block" data-section="games">
+      <div class="section">
+        <div class="section-header"><span class="section-icon">🎮</span><span class="section-title">公会 · 小游戏殿堂</span></div>
+        <div class="game-grid">
+          <!-- 游戏1：掘金矿工 -->
+          <div class="game-card">
+            <div class="game-title">⛏️ 掘金矿工 <span class="score-badge" id="goldScore">0</span></div>
+            <div class="game-area">
+              <button class="game-btn" id="mineBtn">⛏️ 挖掘</button>
+              <span style="margin-left:10px;color:#cdc5b5;">每次挖到 1~5 金</span>
+              <div class="game-result" id="mineResult">点击挖掘，积累财富</div>
+            </div>
+          </div>
+          <!-- 游戏2：史莱姆对决 -->
+          <div class="game-card">
+            <div class="game-title">🟢 史莱姆对决 <span class="score-badge" id="slimeScore">0</span></div>
+            <div class="game-area">
+              <button class="game-btn" id="slimeBtn">⚔️ 攻击</button>
+              <span style="margin-left:10px;color:#cdc5b5;">击败 +1 分</span>
+              <div class="game-result" id="slimeResult">史莱姆出现了！</div>
+            </div>
+          </div>
+          <!-- 游戏3：末影猜词 -->
+          <div class="game-card">
+            <div class="game-title">🔮 末影猜词 <span class="score-badge" id="wordScore">0</span></div>
+            <div class="game-area">
+              <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+                <input class="game-input" id="wordInput" placeholder="输入单词" maxlength="20">
+                <button class="game-btn" id="wordBtn">📖 猜</button>
+                <button class="game-btn" id="wordHintBtn">💡 提示</button>
+              </div>
+              <div class="game-result" id="wordResult">输入英文单词，猜对 +1 分</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-spirit">⚜ AHC 公会 · 同心共筑，不朽世界 ⚜</div>
+    <div class="update-tag">公告更新 · 2026‑08‑24</div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // 导航切换
+    const navBtns = document.querySelectorAll('.nav-btn');
+    const sections = document.querySelectorAll('.section-block');
+    function showAll() { sections.forEach(sec => sec.style.display = 'block'); }
+    function filterView(view) {
+      if (view === 'all') { showAll(); return; }
+      sections.forEach(sec => {
+        const secView = sec.dataset.section;
+        sec.style.display = (secView === view) ? 'block' : 'none';
+      });
+    }
+    function setActive(activeBtn) {
+      navBtns.forEach(btn => btn.classList.remove('active'));
+      activeBtn.classList.add('active');
+    }
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const view = this.dataset.view;
+        filterView(view);
+        setActive(this);
+      });
+    });
+    showAll();
+    const homeBtn = document.querySelector('.nav-btn[data-view="all"]');
+    if (homeBtn) setActive(homeBtn);
+
+    // ===== 游戏逻辑 =====
+    // 1. 掘金矿工
+    let gold = 0;
+    const goldScore = document.getElementById('goldScore');
+    const mineResult = document.getElementById('mineResult');
+    document.getElementById('mineBtn').addEventListener('click', function() {
+      const nugget = Math.floor(Math.random() * 5) + 1;
+      gold += nugget;
+      goldScore.textContent = gold;
+      mineResult.textContent = `⛏️ 挖到 ${nugget} 金！ 总财富: ${gold}`;
+    });
+
+    // 2. 史莱姆对决
+    let slimeKills = 0;
+    const slimeScore = document.getElementById('slimeScore');
+    const slimeResult = document.getElementById('slimeResult');
+    document.getElementById('slimeBtn').addEventListener('click', function() {
+      const hit = Math.random() > 0.3; // 70% 命中
+      if (hit) {
+        slimeKills++;
+        slimeScore.textContent = slimeKills;
+        slimeResult.textContent = `⚔️ 一剑击杀！ 战绩: ${slimeKills}`;
+      } else {
+        slimeResult.textContent = `💨 史莱姆躲开了！ 再试一次`;
+      }
+    });
+
+    // 3. 末影猜词 (内置词库)
+    const words = ['ender', 'dragon', 'nether', 'beacon', 'elytra', 'shulker', 'totem', 'potion', 'enchant', 'anvil'];
+    let currentWord = words[Math.floor(Math.random() * words.length)];
+    let wordScoreVal = 0;
+    const wordScore = document.getElementById('wordScore');
+    const wordResult = document.getElementById('wordResult');
+    const wordInput = document.getElementById('wordInput');
+    document.getElementById('wordBtn').addEventListener('click', function() {
+      const guess = wordInput.value.trim().toLowerCase();
+      if (!guess) { wordResult.textContent = '📝 请输入一个单词'; return; }
+      if (guess === currentWord) {
+        wordScoreVal++;
+        wordScore.textContent = wordScoreVal;
+        wordResult.textContent = `🎉 正确！ 当前单词: ${currentWord}  +1分`;
+        // 换新词
+        let newWord;
+        do { newWord = words[Math.floor(Math.random() * words.length)]; } while (newWord === currentWord);
+        currentWord = newWord;
+        wordInput.value = '';
+      } else {
+        wordResult.textContent = `❌ 猜错了，再想想... 提示: 长度 ${currentWord.length}`;
+      }
+    });
+    document.getElementById('wordHintBtn').addEventListener('click', function() {
+      const hint = currentWord.charAt(0) + '*'.repeat(currentWord.length - 1);
+      wordResult.textContent = `💡 首字母提示: ${hint}`;
+    });
+    // 初始化显示
+    wordResult.textContent = `🔮 猜一个Minecraft单词 (长度 ${currentWord.length})`;
+  })();
+</script>
 </body>
 </html>
