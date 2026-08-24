@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>AHC公会 · 公告与规章</title>
+  <style>
+    :root {
+      --bg: #0f1219;
+      --card-bg: #181d29;
+      --card-border: #2a3142;
+      --text: #e6e9f0;
+      --muted: #9aa3b5;
+      --gold: #d4af37;
+      --gold-soft: #c9a94e;
+      --red: #ff5e6b;
+      --blue: #5ea0ff;
+      --green: #6bd98b;
+      --radius: 20px;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .announcement-container {
+      max-width: 850px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .header {
+      background: linear-gradient(145deg, #1f2738, #121722);
+      padding: 2rem 2rem 1.5rem;
+      text-align: center;
+      border-bottom: 2px solid var(--gold-soft);
+    }
+
+    .header h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+      margin-bottom: 0.25rem;
+    }
+
+    .header .subhead {
+      font-size: 1.1rem;
+      color: #cfd6e4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .header .subhead span {
+      background: #242e42;
+      padding: 0.25rem 0.9rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #e6d9b0;
+    }
+
+    .content {
+      padding: 1.8rem 2rem 2rem;
+    }
+
+    .notice-panel {
+      background: #1f2431;
+      border-left: 6px solid var(--red);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .notice-panel .notice-label {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #ffb3b8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .notice-panel .notice-text {
+      color: #e6d9b0;
+      font-weight: 500;
+      font-size: 1.2rem;
+      background: #2a3040;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      letter-spacing: 1px;
+    }
+
+    .section {
+      margin-bottom: 2.2rem;
+    }
+
+    .section-title {
+      font-size: 1.7rem;
+      font-weight: 650;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid #313b4f;
+      padding-bottom: 0.4rem;
+      letter-spacing: 0.5px;
+    }
+
+    .section-title i {
+      font-style: normal;
+      font-size: 1.8rem;
+    }
+
+    .info-grid {
+      background: #1a1f2b;
+      border-radius: 16px;
+      padding: 1.4rem 1.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.8rem;
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    .info-item {
+      flex: 1 1 200px;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .info-item .label {
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    .info-item .value {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #ffffff;
+      word-break: break-word;
+    }
+
+    .server-ip {
+      color: var(--gold);
+      font-weight: 700;
+      background: #222a3a;
+      padding: 0.15rem 0.8rem;
+      border-radius: 20px;
+      letter-spacing: 1px;
+    }
+
+    .rule-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .rule-list li {
+      background: #171c27;
+      border: 1px solid #252d3d;
+      border-radius: 14px;
+      padding: 0.9rem 1.2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 1rem;
+      transition: 0.2s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .rule-list li:hover {
+      background: #1e2534;
+      border-color: #3b475e;
+    }
+
+    .rule-list li::before {
+      content: "◆";
+      color: var(--gold);
+      font-size: 0.9rem;
+      margin-top: 0.15rem;
+      flex-shrink: 0;
+    }
+
+    .building-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.9rem;
+      margin: 0.5rem 0;
+    }
+
+    .building-card {
+      background: #1b212e;
+      border: 1px solid #2d3548;
+      border-radius: 16px;
+      padding: 0.9rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+
+    .building-card:hover {
+      border-color: var(--gold-soft);
+      background: #202838;
+    }
+
+    .building-icon {
+      font-size: 1.5rem;
+      filter: drop-shadow(0 0 4px #000);
+    }
+
+    .footer-note {
+      margin-top: 2.2rem;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #efdb9f;
+      background: linear-gradient(90deg, #191f2c, #232b3b, #191f2c);
+      padding: 1rem;
+      border-radius: 40px;
+      border: 1px solid #3d4660;
+    }
+
+    .update-tag {
+      text-align: right;
+      font-size: 0.9rem;
+      color: #8f9bb5;
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 0.7rem; }
+      .header h1 { font-size: 2.2rem; }
+      .content { padding: 1.2rem 1rem; }
+      .info-grid { flex-direction: column; gap: 0.9rem; }
+      .notice-panel { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement-container">
+    <div class="header">
+      <h1>AHC 公会</h1>
+      <div class="subhead">
+        <span>⚒️ 生存 · 协作 · 秩序</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- 📌 重要临时通知 -->
+      <div class="notice-panel">
+        <div class="notice-label">📌 重要临时通知</div>
+        <div class="notice-text">无</div>
+      </div>
+
+      <!-- 📢 服务器信息 -->
+      <div class="section">
+        <div class="section-title"><i>📢</i> 服务器信息</div>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">服务器IP</span>
+            <span class="value server-ip">mcgame.me</span>
+          </div>
+          <div class="info-item">
+            <span class="label">版本</span>
+            <span class="value">Minecraft JAVA 26.1.2 Fabric</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⚠️ 进服须知 -->
+      <div class="section">
+        <div class="section-title"><i>⚠️</i> 进服须知</div>
+        <ul class="rule-list">
+          <li>客户端必须安装 <strong>Fabric加载器</strong>，版本 <strong>0.19.3</strong></li>
+          <li>建议安装基础优化模组，减少卡顿崩溃</li>
+          <li>禁止客户端安装破坏平衡的作弊类模组</li>
+          <li>遇到崩溃、BUG请及时向管理反馈</li>
+        </ul>
+      </div>
+
+      <!-- 🏗️ 公会建筑 -->
+      <div class="section">
+        <div class="section-title"><i>🏗️</i> 公会建筑</div>
+        <div class="building-list">
+          <div class="building-card"><span class="building-icon">🌑</span> 小黑塔：xht</div>
+          <div class="building-card"><span class="building-icon">🔥</span> 烈焰人农场：zyr</div>
+          <div class="building-card"><span class="building-icon">🐷</span> 猪人塔：zhurenta</div>
+          <div class="building-card"><span class="building-icon">🏹</span> 掠夺塔：xjt</div>
+        </div>
+      </div>
+
+      <!-- 📜 公会规则 -->
+      <div class="section">
+        <div class="section-title"><i>📜</i> 公会规则</div>
+        <ul class="rule-list">
+          <li>加入公会可以自由游玩，但禁止熊行为，否则管理会被追责</li>
+          <li>在公会领地建造、改动设施，需要提前告知管理</li>
+          <li>遇到问题直接找管理，管理除下午以外基本在线；不咨询就散播小团体言论不予认可</li>
+          <li>大量取用物资必须提前和管理说明</li>
+          <li>外来朋友可以临时游玩，请勿长期逗留干扰公会</li>
+          <li>连续15天未上线将会被踢出，学业、工作特殊情况提前报备除外</li>
+          <li>每周上交150金币作为公会维护经费，特殊情况可报备，请勿长期拖欠</li>
+          <li>不主动与其他公会发生冲突，不参与外部凑热闹引战</li>
+          <li>禁止使用作弊模组，一经发现重罚并直接踢出公会</li>
+          <li>成功招入一名新公会成员，奖励200金币；小号刷入会不计奖励</li>
+          <li>禁止私自挪用、拆改公会公共机器与储物物资，公会领地禁止恶意PVP坑害队友</li>
+          <li>无意损坏公会公共设施请及时上报，隐瞒不报造成损失将予以处罚</li>
+          <li>成员发生矛盾交由管理调解，禁止私下到处挑起矛盾</li>
+          <li>主动退会之后，不再享有公会全部公共资源使用权限</li>
+          <li>公会账号禁止转借他人，转借账号产生的违规行为由账号本人负责</li>
+          <li>全体成员必须遵守以上全部公会条例</li>
+        </ul>
+      </div>
+
+      <!-- ✨ 公会精神 -->
+      <div class="footer-note">
+        ✨ AHC公会｜同心协作，共建生存世界 ✨
+      </div>
+      <div class="update-tag">
+        公告更新：2026‑08‑20
+      </div>
+    </div>
+  </div>
+  <!-- 注：公告内容严格依照用户提供信息 -->
+</body>
+</html>
