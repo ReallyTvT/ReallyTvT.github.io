@@ -3,28 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>AHC公会 · 生存法典</title>
+    <title>AHC公会 · 公告板</title>
     <style>
         :root {
-            --bg: #0a0c12;
-            --card-bg: rgba(20, 24, 36, 0.92);
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 215, 130, 0.18);
-            --gold: #e8c87a;
-            --gold-bright: #f5d78e;
-            --gold-dim: #b89b4f;
-            --text: #ede6d6;
-            --text-soft: #c4bcab;
-            --muted: #8b8f9e;
+            --bg: #0b0f16;
+            --card-bg: #141a24;
+            --card-border: #27303f;
+            --text: #e8e6e0;
+            --text-soft: #b9b3a6;
+            --muted: #8a91a0;
+            --gold: #d9b86a;
+            --gold-bright: #f0d48a;
+            --gold-dim: #a88c4a;
             --red: #ff6b6b;
-            --red-bg: rgba(255, 80, 80, 0.12);
-            --green: #7ac89a;
-            --blue: #7ab8e0;
-            --radius-sm: 12px;
-            --radius-md: 20px;
-            --radius-lg: 28px;
-            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.65);
-            --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            --red-bg: rgba(255, 80, 80, 0.1);
+            --radius: 16px;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
         }
 
         * {
@@ -36,61 +30,34 @@
         body {
             background: var(--bg);
             background-image:
-                radial-gradient(ellipse at 20% 10%, rgba(200, 160, 80, 0.05) 0%, transparent 60%),
-                radial-gradient(ellipse at 90% 80%, rgba(120, 140, 200, 0.04) 0%, transparent 55%),
-                linear-gradient(180deg, #0a0c12 0%, #0e1119 100%);
+                radial-gradient(ellipse at 15% 20%, rgba(50, 70, 110, 0.15) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 80%, rgba(160, 130, 70, 0.07) 0%, transparent 50%),
+                linear-gradient(160deg, #0a0e15, #10141d);
             min-height: 100vh;
             font-family: 'Inter', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
             color: var(--text);
-            line-height: 1.65;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             padding: 2rem 1rem;
-            position: relative;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image:
-                repeating-linear-gradient(45deg, rgba(255,255,255,0.008) 0px, rgba(255,255,255,0.008) 1px, transparent 1px, transparent 30px),
-                repeating-linear-gradient(-45deg, rgba(255,255,255,0.006) 0px, rgba(255,255,255,0.006) 1px, transparent 1px, transparent 30px);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .main-wrapper {
-            max-width: 920px;
+        .announcement-wrapper {
+            max-width: 880px;
             width: 100%;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* 卡片主容器 */
-        .announcement-card {
             background: var(--card-bg);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg), var(--shadow-inner);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.03);
             overflow: hidden;
-            transition: all 0.25s ease;
+            transition: all 0.2s;
         }
 
-        /* 头部装饰 */
         .card-header {
-            background:
-                linear-gradient(160deg, rgba(40, 46, 64, 0.7) 0%, rgba(18, 22, 33, 0.9) 100%),
-                radial-gradient(circle at 30% 20%, rgba(200, 160, 80, 0.1) 0%, transparent 50%);
-            padding: 2.6rem 2rem 2rem;
+            background: linear-gradient(145deg, #1a212e, #121722);
+            padding: 2rem 2rem 1.5rem;
             text-align: center;
-            border-bottom: 2px solid rgba(210, 170, 90, 0.35);
+            border-bottom: 2px solid rgba(210, 170, 90, 0.3);
             position: relative;
         }
 
@@ -100,119 +67,88 @@
             bottom: -18px;
             left: 50%;
             transform: translateX(-50%);
-            background: #1a1e2b;
+            background: #181e2a;
             border: 2px solid var(--gold-dim);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
-            box-shadow: 0 0 20px rgba(200, 160, 80, 0.3);
+            font-size: 1.2rem;
+            box-shadow: 0 0 18px rgba(200, 160, 80, 0.3);
         }
 
         .guild-name {
-            font-size: 3.2rem;
+            font-size: 2.8rem;
             font-weight: 800;
-            letter-spacing: 6px;
+            letter-spacing: 5px;
             text-transform: uppercase;
             background: linear-gradient(135deg, #f5e3b3, #d9b96a, #c6a24e);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             text-shadow: 0 0 30px rgba(220, 180, 100, 0.2);
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
         }
 
-        .guild-subtitle {
-            font-size: 1.05rem;
+        .subhead {
             color: #cfc5ad;
-            letter-spacing: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .guild-subtitle .badge {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 215, 130, 0.25);
-            padding: 0.2rem 1.2rem;
-            border-radius: 30px;
+            letter-spacing: 2px;
             font-weight: 500;
-            font-size: 0.85rem;
-            color: #e6d9b8;
-            letter-spacing: 1px;
+            font-size: 0.95rem;
         }
 
-        .content-body {
-            padding: 2.2rem 2.2rem 2.5rem;
+        .content {
+            padding: 2.2rem 2rem 2.5rem;
             background: rgba(0, 0, 0, 0.15);
         }
 
-        /* 临时通知 - 特殊样式 */
         .notice-banner {
-            background: linear-gradient(145deg, rgba(255, 70, 80, 0.1), rgba(30, 20, 25, 0.7));
+            background: linear-gradient(145deg, rgba(255, 70, 80, 0.08), rgba(25, 20, 24, 0.7));
             border: 1px solid rgba(255, 100, 110, 0.3);
-            border-radius: var(--radius-md);
-            padding: 1.2rem 1.8rem;
-            margin-bottom: 2.2rem;
+            border-radius: 14px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
-            box-shadow: 0 8px 24px rgba(200, 50, 60, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .notice-banner::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 6px;
-            height: 100%;
-            background: var(--red);
-            box-shadow: 0 0 20px rgba(255, 80, 80, 0.6);
+            gap: 0.8rem;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
         }
 
         .notice-label {
             font-weight: 700;
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             color: #ffc2c5;
             display: flex;
             align-items: center;
-            gap: 10px;
-            letter-spacing: 0.5px;
+            gap: 6px;
         }
 
-        .notice-content {
+        .notice-value {
             font-size: 1.3rem;
-            font-weight: 600;
+            font-weight: 700;
             background: rgba(0, 0, 0, 0.35);
-            padding: 0.3rem 1.4rem;
+            padding: 0.25rem 1.4rem;
             border-radius: 30px;
             color: #ffe0b0;
             letter-spacing: 2px;
-            border: 1px dashed rgba(255, 200, 150, 0.4);
+            border: 1px dashed rgba(255, 215, 150, 0.4);
         }
 
-        /* 区块标题 */
         .section {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2.2rem;
         }
 
         .section-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 1.2rem;
+            gap: 10px;
+            margin-bottom: 1rem;
             padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(200, 170, 100, 0.25);
+            border-bottom: 1px solid rgba(200, 170, 100, 0.22);
             position: relative;
         }
 
@@ -221,153 +157,142 @@
             position: absolute;
             bottom: -1px;
             left: 0;
-            width: 60px;
+            width: 50px;
             height: 2px;
             background: var(--gold);
-            box-shadow: 0 0 12px rgba(220, 180, 100, 0.5);
+            box-shadow: 0 0 10px rgba(220, 180, 100, 0.5);
         }
 
         .section-icon {
-            font-size: 1.8rem;
-            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+            font-size: 1.5rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
         }
 
         .section-title {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             color: #f0e5cc;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
         }
 
-        /* 服务器信息卡片 */
         .info-card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: var(--radius-md);
-            padding: 1.5rem 1.8rem;
+            border-radius: 14px;
+            padding: 1.2rem 1.5rem;
             display: flex;
             flex-wrap: wrap;
             gap: 2rem;
             align-items: center;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
         }
 
         .info-pair {
             display: flex;
             align-items: baseline;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .info-key {
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             letter-spacing: 2px;
             color: var(--muted);
         }
 
         .info-value {
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: #fff;
-            letter-spacing: 0.5px;
         }
 
-        .ip-highlight {
+        .ip-value {
             background: rgba(210, 175, 100, 0.1);
-            border: 1px solid rgba(210, 175, 100, 0.3);
-            padding: 0.2rem 1.2rem;
+            border: 1px solid rgba(210, 175, 100, 0.35);
+            padding: 0.15rem 1rem;
             border-radius: 30px;
             color: var(--gold-bright);
-            font-weight: 700;
             letter-spacing: 1px;
         }
 
-        /* 规则列表 */
         .rule-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 0.65rem;
+            gap: 0.55rem;
         }
 
         .rule-list li {
             background: rgba(255, 255, 255, 0.015);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: var(--radius-sm);
-            padding: 0.7rem 1.2rem;
+            border-radius: 12px;
+            padding: 0.65rem 1.2rem;
             display: flex;
             align-items: flex-start;
-            gap: 0.9rem;
-            font-size: 0.98rem;
+            gap: 0.8rem;
+            font-size: 0.95rem;
             transition: all 0.2s ease;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            backdrop-filter: blur(3px);
         }
 
         .rule-list li:hover {
             background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(210, 175, 100, 0.3);
-            transform: translateX(4px);
+            border-color: rgba(210, 175, 100, 0.35);
+            transform: translateX(3px);
         }
 
         .rule-list li::before {
             content: "◆";
             color: var(--gold);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             margin-top: 0.2rem;
             flex-shrink: 0;
-            text-shadow: 0 0 8px rgba(200,160,80,0.6);
+            text-shadow: 0 0 8px rgba(200,160,80,0.5);
         }
 
-        /* 建筑网格 */
         .building-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 0.8rem;
+            gap: 0.7rem;
         }
 
-        .building-item {
+        .building-card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: var(--radius-sm);
-            padding: 0.85rem 1.1rem;
+            border-radius: 12px;
+            padding: 0.7rem 1rem;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.7rem;
             font-weight: 600;
             font-size: 0.95rem;
             transition: 0.2s;
-            letter-spacing: 0.4px;
         }
 
-        .building-item:hover {
+        .building-card:hover {
             background: rgba(255, 255, 255, 0.05);
             border-color: rgba(210, 175, 100, 0.4);
-            box-shadow: 0 0 18px rgba(200,160,80,0.1);
+            box-shadow: 0 0 14px rgba(200,160,80,0.1);
         }
 
         .building-icon {
-            font-size: 1.5rem;
-            filter: drop-shadow(0 0 6px rgba(0,0,0,0.6));
+            font-size: 1.35rem;
+            filter: drop-shadow(0 0 4px rgba(0,0,0,0.5));
         }
 
-        /* 底部精神 */
         .footer-spirit {
             margin-top: 2.5rem;
             text-align: center;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 700;
             letter-spacing: 3px;
             color: #f3e2b8;
-            background: linear-gradient(145deg, rgba(30, 28, 22, 0.8), rgba(20, 22, 30, 0.9));
-            padding: 1.2rem 1rem;
-            border-radius: 50px;
-            border: 1px solid rgba(210, 175, 100, 0.25);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-            text-shadow: 0 0 20px rgba(200,160,80,0.4);
+            background: linear-gradient(145deg, rgba(35, 30, 20, 0.8), rgba(20, 22, 30, 0.9));
+            padding: 1rem;
+            border-radius: 40px;
+            border: 1px solid rgba(210, 175, 100, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
 
         .update-tag {
@@ -379,119 +304,109 @@
             font-style: italic;
         }
 
-        /* 响应式 */
         @media (max-width: 600px) {
-            body { padding: 0.8rem; }
-            .guild-name { font-size: 2.3rem; letter-spacing: 3px; }
-            .card-header { padding: 2rem 1rem 1.6rem; }
-            .content-body { padding: 1.5rem 1rem 1.8rem; }
+            body { padding: 0.7rem; }
+            .guild-name { font-size: 2.2rem; letter-spacing: 3px; }
+            .content { padding: 1.5rem 1rem 1.8rem; }
             .info-card { flex-direction: column; gap: 0.8rem; }
             .notice-banner { flex-direction: column; align-items: flex-start; }
             .building-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-            .section-title { font-size: 1.35rem; }
+            .section-title { font-size: 1.3rem; }
         }
     </style>
 </head>
 <body>
-    <div class="main-wrapper">
-        <div class="announcement-card">
-            <!-- 头部 -->
-            <div class="card-header">
-                <h1 class="guild-name">AHC 公会</h1>
-                <div class="guild-subtitle">
-                    <span class="badge">⚒️ 生存协作</span>
-                    <span class="badge">🛡️ 秩序至上</span>
-                    <span class="badge">✨ 共建家园</span>
+    <div class="announcement-wrapper">
+        <div class="card-header">
+            <h1 class="guild-name">AHC 公会</h1>
+            <div class="subhead">📌 重要临时通知 · 无</div>
+        </div>
+
+        <div class="content">
+            <!-- 通知横幅（独立显示，与header呼应） -->
+            <div class="notice-banner">
+                <div class="notice-label">📌 重要临时通知</div>
+                <div class="notice-value">无</div>
+            </div>
+
+            <!-- 📢 服务器信息 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">📢</span>
+                    <span class="section-title">服务器信息</span>
+                </div>
+                <div class="info-card">
+                    <div class="info-pair">
+                        <span class="info-key">服务器IP</span>
+                        <span class="info-value ip-value">mcgame.me</span>
+                    </div>
+                    <div class="info-pair">
+                        <span class="info-key">版本</span>
+                        <span class="info-value">Minecraft JAVA 26.1.2 Fabric</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- 正文 -->
-            <div class="content-body">
-                <!-- 📌 重要临时通知 -->
-                <div class="notice-banner">
-                    <div class="notice-label">📌 重要临时通知</div>
-                    <div class="notice-content">无</div>
+            <!-- ⚠️ 进服须知 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">⚠️</span>
+                    <span class="section-title">进服须知</span>
                 </div>
+                <ul class="rule-list">
+                    <li>客户端必须安装 <strong>Fabric加载器</strong>，版本 <strong>0.19.3</strong></li>
+                    <li>建议安装基础优化模组，减少卡顿崩溃</li>
+                    <li>禁止客户端安装破坏平衡的作弊类模组</li>
+                    <li>遇到崩溃、BUG请及时向管理反馈</li>
+                </ul>
+            </div>
 
-                <!-- 📢 服务器信息 -->
-                <div class="section">
-                    <div class="section-header">
-                        <span class="section-icon">📢</span>
-                        <span class="section-title">服务器信息</span>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-pair">
-                            <span class="info-key">服务器IP</span>
-                            <span class="info-value ip-highlight">mcgame.me</span>
-                        </div>
-                        <div class="info-pair">
-                            <span class="info-key">版本</span>
-                            <span class="info-value">Minecraft JAVA 26.1.2 Fabric</span>
-                        </div>
-                    </div>
+            <!-- 🏗️ 公会建筑 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">🏗️</span>
+                    <span class="section-title">公会建筑</span>
                 </div>
+                <div class="building-grid">
+                    <div class="building-card"><span class="building-icon">🌑</span> 小黑塔：xht</div>
+                    <div class="building-card"><span class="building-icon">🔥</span> 烈焰人农场：zyr</div>
+                    <div class="building-card"><span class="building-icon">🐷</span> 猪人塔：zhurenta</div>
+                    <div class="building-card"><span class="building-icon">🏹</span> 掠夺塔：xjt</div>
+                </div>
+            </div>
 
-                <!-- ⚠️ 进服须知 -->
-                <div class="section">
-                    <div class="section-header">
-                        <span class="section-icon">⚠️</span>
-                        <span class="section-title">进服须知</span>
-                    </div>
-                    <ul class="rule-list">
-                        <li>客户端必须安装 <strong>Fabric加载器</strong>，版本 <strong>0.19.3</strong></li>
-                        <li>建议安装基础优化模组，减少卡顿崩溃</li>
-                        <li>禁止客户端安装破坏平衡的作弊类模组</li>
-                        <li>遇到崩溃、BUG请及时向管理反馈</li>
-                    </ul>
+            <!-- 📜 公会规则 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">📜</span>
+                    <span class="section-title">公会规则</span>
                 </div>
+                <ul class="rule-list">
+                    <li>加入公会可以自由游玩，但禁止熊行为，否则管理会被追责</li>
+                    <li>在公会领地建造、改动设施，需要提前告知管理</li>
+                    <li>遇到问题直接找管理，管理除下午以外基本在线；不咨询就散播小团体言论不予认可</li>
+                    <li>大量取用物资必须提前和管理说明</li>
+                    <li>外来朋友可以临时游玩，请勿长期逗留干扰公会</li>
+                    <li>连续15天未上线将会被踢出，学业、工作特殊情况提前报备除外</li>
+                    <li>每周上交150金币作为公会维护经费，特殊情况可报备，请勿长期拖欠</li>
+                    <li>不主动与其他公会发生冲突，不参与外部凑热闹引战</li>
+                    <li>禁止使用作弊模组，一经发现重罚并直接踢出公会</li>
+                    <li>成功招入一名新公会成员，奖励200金币；小号刷入会不计奖励</li>
+                    <li>禁止私自挪用、拆改公会公共机器与储物物资，公会领地禁止恶意PVP坑害队友</li>
+                    <li>无意损坏公会公共设施请及时上报，隐瞒不报造成损失将予以处罚</li>
+                    <li>成员发生矛盾交由管理调解，禁止私下到处挑起矛盾</li>
+                    <li>主动退会之后，不再享有公会全部公共资源使用权限</li>
+                    <li>公会账号禁止转借他人，转借账号产生的违规行为由账号本人负责</li>
+                    <li>全体成员必须遵守以上全部公会条例</li>
+                </ul>
+            </div>
 
-                <!-- 🏗️ 公会建筑 -->
-                <div class="section">
-                    <div class="section-header">
-                        <span class="section-icon">🏗️</span>
-                        <span class="section-title">公会建筑</span>
-                    </div>
-                    <div class="building-grid">
-                        <div class="building-item"><span class="building-icon">🌑</span> 小黑塔：xht</div>
-                        <div class="building-item"><span class="building-icon">🔥</span> 烈焰人农场：zyr</div>
-                        <div class="building-item"><span class="building-icon">🐷</span> 猪人塔：zhurenta</div>
-                        <div class="building-item"><span class="building-icon">🏹</span> 掠夺塔：xjt</div>
-                    </div>
-                </div>
-
-                <!-- 📜 公会规则 -->
-                <div class="section">
-                    <div class="section-header">
-                        <span class="section-icon">📜</span>
-                        <span class="section-title">公会规则</span>
-                    </div>
-                    <ul class="rule-list">
-                        <li>加入公会可以自由游玩，但禁止熊行为，否则管理会被追责</li>
-                        <li>在公会领地建造、改动设施，需要提前告知管理</li>
-                        <li>遇到问题直接找管理，管理除下午以外基本在线；不咨询就散播小团体言论不予认可</li>
-                        <li>大量取用物资必须提前和管理说明</li>
-                        <li>外来朋友可以临时游玩，请勿长期逗留干扰公会</li>
-                        <li>连续15天未上线将会被踢出，学业、工作特殊情况提前报备除外</li>
-                        <li>每周上交150金币作为公会维护经费，特殊情况可报备，请勿长期拖欠</li>
-                        <li>不主动与其他公会发生冲突，不参与外部凑热闹引战</li>
-                        <li>禁止使用作弊模组，一经发现重罚并直接踢出公会</li>
-                        <li>成功招入一名新公会成员，奖励200金币；小号刷入会不计奖励</li>
-                        <li>禁止私自挪用、拆改公会公共机器与储物物资，公会领地禁止恶意PVP坑害队友</li>
-                        <li>无意损坏公会公共设施请及时上报，隐瞒不报造成损失将予以处罚</li>
-                        <li>成员发生矛盾交由管理调解，禁止私下到处挑起矛盾</li>
-                        <li>主动退会之后，不再享有公会全部公共资源使用权限</li>
-                        <li>公会账号禁止转借他人，转借账号产生的违规行为由账号本人负责</li>
-                        <li>全体成员必须遵守以上全部公会条例</li>
-                    </ul>
-                </div>
-
-                <!-- ✨ 公会精神 -->
-                <div class="footer-spirit">
-                    ✨ AHC公会｜同心协作，共建生存世界 ✨
-                </div>
-                <div class="update-tag">
-                    公告更新：2026‑08‑20
-                </div>
+            <!-- ✨ 公会精神 -->
+            <div class="footer-spirit">
+                ✨ AHC公会｜同心协作，共建生存世界 ✨
+            </div>
+            <div class="update-tag">
+                公告更新：2026‑08‑20
             </div>
         </div>
     </div>
