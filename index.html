@@ -1,537 +1,681 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>AHC 公会 · 游戏殿堂</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --bg-deep: #030609;
-      --card-bg: rgba(12, 18, 26, 0.88);
-      --card-border-glow: rgba(210, 180, 110, 0.25);
-      --text-primary: #f0ebe0;
-      --text-soft: #cdc5b5;
-      --muted-gold: #9a8b6e;
-      --gold: #d9b86a;
-      --gold-bright: #f3e0a8;
-      --gold-dim: #a88c4a;
-      --gold-glow: rgba(210, 175, 100, 0.3);
-      --shadow-heavy: 0 30px 60px rgba(0,0,0,0.9);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 14px;
-      --font-display: 'Cormorant Garamond', 'Inter', 'Segoe UI', 'PingFang SC', serif;
-      --font-body: 'Inter', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    }
-    body {
-      min-height: 100vh;
-      font-family: var(--font-body);
-      color: var(--text-primary);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 1.8rem 1.2rem;
-      background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-      background-size: cover;
-      background-position: center 20%;
-      background-attachment: fixed;
-      position: relative;
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at 30% 40%, rgba(10, 15, 25, 0.65), rgba(2, 4, 8, 0.90));
-      backdrop-filter: blur(5px) saturate(0.6);
-      z-index: 0;
-      pointer-events: none;
-    }
-    .announcement-wrapper {
-      position: relative;
-      z-index: 2;
-      max-width: 1160px;
-      width: 100%;
-      background: var(--card-bg);
-      border: 1px solid rgba(210, 180, 110, 0.18);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-heavy), 0 0 0 1px rgba(210, 180, 110, 0.06) inset;
-      backdrop-filter: blur(12px);
-      overflow: hidden;
-      transition: all 0.4s ease;
-    }
-    .card-header {
-      background: linear-gradient(160deg, rgba(25, 32, 45, 0.95), rgba(8, 12, 20, 0.98));
-      padding: 2.4rem 2.2rem 1.8rem;
-      text-align: center;
-      border-bottom: 2px solid var(--gold-dim);
-      position: relative;
-      box-shadow: inset 0 1px 0 rgba(255, 215, 150, 0.08), 0 12px 30px -10px rgba(0,0,0,0.8);
-    }
-    .card-header::after {
-      content: "⚔️";
-      position: absolute;
-      bottom: -22px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #141b26;
-      border: 2px solid var(--gold);
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: 0 0 30px rgba(200, 160, 80, 0.5), inset 0 0 12px rgba(255, 215, 150, 0.3);
-    }
-    .guild-name {
-      font-family: var(--font-display);
-      font-size: 4.2rem;
-      font-weight: 700;
-      letter-spacing: 10px;
-      text-transform: uppercase;
-      background: linear-gradient(135deg, #f7efd0, #d9b86a, #b8974a);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 50px rgba(200, 170, 80, 0.25);
-      margin-bottom: 0.1rem;
-      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.5));
-      line-height: 1.1;
-    }
-    .subhead {
-      font-family: var(--font-display);
-      font-style: italic;
-      letter-spacing: 5px;
-      color: #d6cdb8;
-      font-weight: 400;
-      font-size: 1rem;
-      background: rgba(0, 0, 0, 0.5);
-      display: inline-block;
-      padding: 0.3rem 2.4rem;
-      border-radius: 60px;
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(200, 175, 100, 0.2);
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
-    }
-    .top-nav {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.8rem 1.8rem 0.5rem;
-      background: rgba(0, 0, 0, 0.5);
-      border-bottom: 1px solid rgba(255, 215, 150, 0.06);
-      flex-wrap: wrap;
-      backdrop-filter: blur(6px);
-    }
-    .nav-btn {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: var(--text-soft);
-      padding: 0.5rem 1.8rem;
-      border-radius: 60px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-      backdrop-filter: blur(4px);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-      font-family: var(--font-body);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .nav-btn:hover {
-      background: rgba(210, 180, 110, 0.12);
-      border-color: var(--gold);
-      color: var(--gold-bright);
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.5), 0 0 20px rgba(200,160,80,0.15);
-    }
-    .nav-btn.active {
-      background: rgba(210, 180, 110, 0.20);
-      border-color: var(--gold);
-      color: var(--gold-bright);
-      box-shadow: 0 0 30px rgba(200,160,80,0.2), inset 0 0 20px rgba(200,160,80,0.05);
-    }
-    .nav-icon { font-size: 1.1rem; filter: drop-shadow(0 0 4px rgba(0,0,0,0.4)); }
-    .content { padding: 2.6rem 2.6rem 2.8rem; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(4px); }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHC公会 · 首页 · 身份区</title>
+    <!-- 可爱风格 + 身份区 + 首页欢迎 -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* ===== 分区容器 ===== */
-    .section-block {
-      margin-bottom: 2.8rem;
-      scroll-margin-top: 1rem;
-    }
-    .section-block:last-of-type { margin-bottom: 0; }
+        body {
+            min-height: 100vh;
+            /* 可爱风格背景：粉彩渐变 + 小元素点缀 */
+            background: 
+                radial-gradient(circle at 10% 30%, rgba(255, 225, 235, 0.5) 0%, transparent 35%),
+                radial-gradient(circle at 90% 70%, rgba(215, 235, 255, 0.6) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(255, 240, 200, 0.4) 0%, transparent 30%),
+                linear-gradient(145deg, #fdeff2 0%, #f8e8ee 30%, #f0e6f0 70%, #e8eff8 100%);
+            font-family: 'Segoe UI', 'Quicksand', system-ui, -apple-system, sans-serif;
+            padding: 24px 16px 40px;
+            color: #1a2639;
+            background-attachment: fixed;
+            position: relative;
+        }
 
-    .notice-banner {
-      background: linear-gradient(145deg, rgba(200, 70, 70, 0.15), rgba(20, 18, 24, 0.8));
-      border: 1px solid rgba(255, 120, 120, 0.3);
-      border-radius: 100px;
-      padding: 0.8rem 2.2rem;
-      margin-bottom: 2.6rem;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.8rem;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 200, 150, 0.1);
-      backdrop-filter: blur(6px);
-    }
-    .notice-label { font-weight: 700; font-size: 1.1rem; color: #ffd4d4; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; font-family: var(--font-display); }
-    .notice-value { font-size: 1.2rem; font-weight: 700; background: rgba(0, 0, 0, 0.6); padding: 0.2rem 2.4rem; border-radius: 60px; color: #fae6c0; letter-spacing: 3px; border: 1px solid rgba(255, 215, 150, 0.3); box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); backdrop-filter: blur(4px); font-family: var(--font-display); }
-    .section { margin-bottom: 0; }
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 1.4rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid rgba(200, 170, 100, 0.15);
-      position: relative;
-    }
-    .section-header::after {
-      content: "";
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      width: 80px;
-      height: 3px;
-      background: linear-gradient(90deg, var(--gold), var(--gold-dim));
-      box-shadow: 0 0 20px rgba(220, 180, 100, 0.4);
-      border-radius: 6px;
-    }
-    .section-icon { font-size: 1.9rem; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5)); }
-    .section-title { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; letter-spacing: 3px; color: #f2e8d0; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
-    .info-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: var(--radius-lg);
-      padding: 1.6rem 2.4rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2.8rem;
-      align-items: center;
-      backdrop-filter: blur(6px);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 10px 30px -10px rgba(0,0,0,0.4);
-    }
-    .info-pair { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
-    .info-key { font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 3px; color: var(--muted-gold); background: rgba(0,0,0,0.3); padding: 0.15rem 1rem; border-radius: 40px; border: 1px solid rgba(255,255,255,0.04); }
-    .info-value { font-weight: 600; font-size: 1.15rem; color: #f5efe2; letter-spacing: 0.5px; }
-    .ip-value { background: rgba(210, 175, 100, 0.12); border: 1px solid rgba(210, 175, 100, 0.4); padding: 0.2rem 1.6rem; border-radius: 60px; color: var(--gold-bright); letter-spacing: 2px; font-weight: 700; box-shadow: 0 0 20px rgba(200,160,80,0.15); font-family: var(--font-display); }
-    .rule-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-    .rule-list li { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: var(--radius-md); padding: 0.7rem 1.8rem; display: flex; align-items: flex-start; gap: 1rem; font-size: 0.95rem; line-height: 1.6; transition: all 0.25s ease; backdrop-filter: blur(4px); box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-    .rule-list li:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(210, 175, 100, 0.3); transform: translateX(6px); box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
-    .rule-list li::before { content: "✦"; color: var(--gold); font-size: 0.9rem; margin-top: 0.1rem; flex-shrink: 0; text-shadow: 0 0 16px rgba(200,160,80,0.5); opacity: 0.8; }
-    .rule-list li strong { color: var(--gold-bright); font-weight: 700; letter-spacing: 0.3px; }
-    .building-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
-    .building-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: var(--radius-md); padding: 0.9rem 1.4rem; display: flex; align-items: center; gap: 1rem; font-weight: 600; font-size: 0.98rem; transition: all 0.3s ease; backdrop-filter: blur(6px); box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-    .building-card:hover { background: rgba(255, 255, 255, 0.07); border-color: rgba(210, 175, 100, 0.5); transform: translateY(-5px) scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 30px rgba(200,160,80,0.08); }
-    .building-icon { font-size: 1.6rem; filter: drop-shadow(0 0 8px rgba(0,0,0,0.6)); }
-    .footer-spirit { margin-top: 3rem; text-align: center; font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; letter-spacing: 6px; color: #f3e2b8; background: linear-gradient(145deg, rgba(35, 30, 20, 0.7), rgba(12, 16, 24, 0.9)); padding: 1.2rem 1.8rem; border-radius: 80px; border: 1px solid rgba(210, 175, 100, 0.2); box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 215, 150, 0.1); backdrop-filter: blur(8px); }
-    .update-tag { text-align: right; margin-top: 1.4rem; font-size: 0.8rem; color: #6b7385; letter-spacing: 2px; font-style: italic; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 1.2rem; font-family: var(--font-display); }
+        /* 可爱小点缀 (云朵/星星/小花) 使用伪元素 */
+        body::before {
+            content: "🌸 ✨ 🐾 🌱 🍀 ☁️ 🌟";
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 2.8rem;
+            opacity: 0.15;
+            white-space: pre-wrap;
+            line-height: 4.2rem;
+            pointer-events: none;
+            transform: rotate(-6deg);
+            z-index: 0;
+            max-width: 120px;
+            filter: drop-shadow(0 4px 6px rgba(255, 150, 180, 0.1));
+        }
 
-    /* ===== 游戏卡片 ===== */
-    .game-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin: 1.5rem 0;
-    }
-    .game-card {
-      background: rgba(0, 0, 0, 0.55);
-      border: 1px solid rgba(210, 180, 110, 0.2);
-      border-radius: var(--radius-lg);
-      padding: 1.4rem 1.8rem 1.8rem;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-      transition: 0.3s ease;
-      display: flex;
-      flex-direction: column;
-    }
-    .game-card:hover { border-color: var(--gold); box-shadow: 0 8px 40px rgba(0,0,0,0.8), 0 0 25px rgba(200,160,80,0.12); transform: translateY(-2px); }
-    .game-title {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      color: var(--gold-bright);
-      margin-bottom: 0.9rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(255,215,150,0.1);
-      padding-bottom: 0.4rem;
-    }
-    .game-title span { font-size: 1rem; background: rgba(210, 175, 100, 0.15); padding: 0.1rem 1rem; border-radius: 60px; color: var(--gold-bright); }
-    .game-area {
-      min-height: 100px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex: 1;
-    }
-    .game-controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      align-items: center;
-      margin: 0.4rem 0 0.6rem;
-    }
-    .game-btn {
-      background: rgba(210, 180, 110, 0.12);
-      border: 1px solid var(--gold-dim);
-      color: var(--gold-bright);
-      padding: 0.4rem 1.4rem;
-      border-radius: 60px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: 0.2s;
-      font-family: var(--font-body);
-      letter-spacing: 0.5px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    .game-btn:hover { background: rgba(210, 180, 110, 0.25); border-color: var(--gold); transform: scale(1.04); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
-    .game-btn:active { transform: scale(0.96); }
-    .game-input {
-      background: rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #f0ebe0;
-      padding: 0.3rem 0.8rem;
-      border-radius: 40px;
-      font-family: var(--font-body);
-      width: 130px;
-      font-size: 0.85rem;
-      transition: 0.2s;
-    }
-    .game-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 20px rgba(200,160,80,0.1); }
-    .game-result {
-      margin-top: 0.6rem;
-      padding: 0.5rem 1rem;
-      background: rgba(0,0,0,0.4);
-      border-radius: 30px;
-      font-size: 0.9rem;
-      border-left: 3px solid var(--gold-dim);
-      backdrop-filter: blur(4px);
-      min-height: 2.8rem;
-      display: flex;
-      align-items: center;
-      word-break: break-word;
-    }
-    .game-hint { color: var(--text-soft); font-size: 0.8rem; margin-left: 4px; }
-    .score-badge { background: rgba(210, 175, 100, 0.2); padding: 0.1rem 1rem; border-radius: 40px; color: var(--gold-bright); font-size: 0.8rem; margin-left: 6px; border: 1px solid rgba(210, 175, 100, 0.15); }
+        body::after {
+            content: "🦊 🐼 🐨 🐰 🐻‍❄️ 🌈";
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            font-size: 2.6rem;
+            opacity: 0.12;
+            pointer-events: none;
+            transform: rotate(6deg);
+            z-index: 0;
+            line-height: 3.8rem;
+            text-align: right;
+            filter: drop-shadow(0 4px 8px rgba(200, 150, 200, 0.1));
+        }
 
-    @media (max-width: 720px) {
-      body { padding: 0.6rem; }
-      .guild-name { font-size: 2.8rem; letter-spacing: 5px; }
-      .content { padding: 1.6rem 1.2rem 1.8rem; }
-      .info-card { flex-direction: column; gap: 1.2rem; align-items: stretch; padding: 1.2rem 1.4rem; }
-      .notice-banner { flex-direction: column; align-items: stretch; border-radius: 40px; padding: 0.8rem 1.4rem; }
-      .notice-value { text-align: center; }
-      .building-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-      .section-title { font-size: 1.5rem; }
-      .card-header { padding: 1.6rem 1rem 1.6rem; }
-      .rule-list li { padding: 0.6rem 1.2rem; font-size: 0.88rem; }
-      .top-nav { gap: 0.3rem; padding: 0.6rem 0.6rem; }
-      .nav-btn { padding: 0.3rem 1.2rem; font-size: 0.75rem; }
-      .subhead { font-size: 0.8rem; padding: 0.2rem 1.6rem; }
-      .game-grid { grid-template-columns: 1fr; }
-      .game-controls { flex-wrap: wrap; }
-    }
-  </style>
+        /* 主卡片 毛玻璃+可爱圆润 */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            background: rgba(255, 248, 250, 0.78);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 48px 48px 40px 40px;
+            box-shadow: 0 20px 50px -10px rgba(180, 120, 140, 0.25), 
+                        0 0 0 2px rgba(255, 220, 230, 0.5) inset;
+            padding: 28px 24px 32px;
+            transition: 0.2s;
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* ===== 首页欢迎横幅 ===== */
+        .welcome-banner {
+            background: linear-gradient(135deg, rgba(235, 190, 210, 0.3), rgba(200, 170, 210, 0.2));
+            border-radius: 40px;
+            padding: 24px 28px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 220, 230, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 16px rgba(200, 150, 180, 0.08);
+        }
+        .welcome-banner .greeting {
+            font-size: 1.8rem;
+            font-weight: 650;
+            color: #4f3a5a;
+            letter-spacing: 1px;
+        }
+        .welcome-banner .greeting small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #6b4e6a;
+            display: block;
+            margin-top: 4px;
+            opacity: 0.8;
+        }
+        .welcome-banner .mascot {
+            font-size: 3.2rem;
+            line-height: 1;
+            filter: drop-shadow(0 4px 10px rgba(200, 130, 160, 0.15));
+        }
+        @media (max-width: 540px) {
+            .welcome-banner .greeting { font-size: 1.4rem; }
+            .welcome-banner .mascot { font-size: 2.6rem; }
+        }
+
+        /* 分区标题增强 */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 32px 0 16px 0;
+            padding: 0 4px;
+        }
+        .section-divider .line {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(200, 150, 180, 0.3), rgba(200, 150, 180, 0.6), rgba(200, 150, 180, 0.3));
+            border-radius: 10px;
+        }
+        .section-divider .label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #5b3e5a;
+            background: rgba(235, 210, 225, 0.4);
+            padding: 2px 20px;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+        }
+        .section-divider:first-of-type {
+            margin-top: 8px;
+        }
+
+        /* 标题 + 重要临时通知 */
+        .header-area {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            border-bottom: 2px solid rgba(235, 200, 215, 0.5);
+            padding-bottom: 18px;
+        }
+
+        .title-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .title-group h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(145deg, #b35d7a, #8f5a8a, #5f7a9e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 12px rgba(200, 130, 160, 0.15);
+        }
+
+        .badge-important {
+            background: #f28b8b;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 6px 16px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(240, 130, 130, 0.3);
+            white-space: nowrap;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .badge-important span {
+            font-size: 1.1rem;
+        }
+
+        .update-meta {
+            font-size: 0.85rem;
+            color: #6b5a6e;
+            background: rgba(235, 215, 225, 0.6);
+            padding: 4px 18px;
+            border-radius: 40px;
+            margin-top: 6px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* 卡片风格区块 */
+        .section-card {
+            background: rgba(255, 245, 248, 0.7);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 18px 20px 20px;
+            margin-top: 8px;
+            border: 1px solid rgba(255, 220, 230, 0.5);
+            box-shadow: 0 6px 18px rgba(200, 150, 170, 0.08);
+            transition: 0.15s;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            font-weight: 650;
+            margin-bottom: 14px;
+            color: #4f3f5e;
+            border-left: 5px solid #d9a3b7;
+            padding-left: 14px;
+            text-shadow: 0 1px 4px rgba(255, 200, 220, 0.2);
+        }
+
+        .server-ip {
+            background: #3d3450;
+            color: #f0dce8;
+            padding: 12px 24px;
+            border-radius: 60px;
+            display: inline-block;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-weight: 500;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 6px 14px rgba(60, 40, 60, 0.2);
+            border: 1px solid #ba9bb0;
+            margin-top: 4px;
+        }
+
+        .server-ip small {
+            color: #c9b1cb;
+            font-size: 0.9rem;
+            margin-left: 12px;
+            font-weight: 400;
+        }
+
+        .badge-fabric {
+            background: #a2799c;
+            color: white;
+            padding: 4px 16px;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px rgba(160, 110, 150, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .rule-list, .building-list, .rule-list-compact {
+            list-style: none;
+            padding: 0;
+        }
+
+        .rule-list li, .building-list li {
+            padding: 8px 0 8px 30px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%23b57a8f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>') left center no-repeat;
+            background-size: 18px;
+            margin-bottom: 2px;
+            line-height: 1.6;
+            color: #332b3f;
+        }
+
+        .building-list li {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%23a87b5f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M9 21V15h6v6"/><path d="M12 3v7"/></svg>') left center no-repeat;
+            background-size: 18px;
+        }
+
+        .rule-list li strong, .building-list li strong {
+            color: #5b3e5a;
+            font-weight: 600;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 680px) {
+            .grid-2col {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+            .header-area {
+                flex-direction: column;
+                align-items: start;
+                gap: 10px;
+            }
+            .badge-important {
+                font-size: 0.8rem;
+                padding: 4px 14px;
+            }
+            body::before, body::after {
+                font-size: 2rem;
+                opacity: 0.08;
+            }
+            .section-divider .label {
+                font-size: 0.9rem;
+                padding: 2px 14px;
+            }
+        }
+
+        .rule-compact {
+            background: rgba(255, 240, 245, 0.5);
+            backdrop-filter: blur(2px);
+            border-radius: 24px;
+            padding: 10px 16px 10px 16px;
+            margin-top: 6px;
+            box-shadow: 0 2px 10px rgba(200, 160, 180, 0.05);
+        }
+
+        .rule-compact li {
+            padding: 5px 0 5px 30px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="%23b07b92" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>') left center no-repeat;
+            background-size: 16px;
+            border-bottom: 1px solid rgba(215, 180, 195, 0.3);
+        }
+
+        .rule-compact li:last-child {
+            border-bottom: none;
+        }
+
+        .highlight-box {
+            background: rgba(240, 210, 225, 0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 30px;
+            padding: 14px 20px;
+            margin: 18px 0 8px;
+            border-left: 6px solid #d9a3b7;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px 20px;
+            box-shadow: 0 4px 14px rgba(200, 140, 170, 0.08);
+        }
+
+        .highlight-box .label {
+            font-weight: 600;
+            color: #4f3a4e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .motto {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-top: 28px;
+            padding-top: 18px;
+            border-top: 2px dashed rgba(200, 160, 180, 0.5);
+            color: #4f3a5a;
+            letter-spacing: 1px;
+        }
+
+        .motto span {
+            background: rgba(240, 215, 230, 0.5);
+            backdrop-filter: blur(4px);
+            padding: 4px 24px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .footer-note {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #78627a;
+            margin-top: 12px;
+            opacity: 0.7;
+        }
+
+        .inline-code {
+            background: rgba(210, 180, 200, 0.3);
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #4f3a5a;
+            backdrop-filter: blur(2px);
+        }
+        .section-card:after {
+            content: "🐾";
+            font-size: 1.8rem;
+            opacity: 0.06;
+            float: right;
+            margin-top: -20px;
+            transform: rotate(10deg);
+            pointer-events: none;
+        }
+        .server-info-wrap {
+            display: flex; 
+            flex-wrap: wrap; 
+            align-items: baseline; 
+            gap: 12px 20px;
+        }
+
+        .badge-section {
+            display: inline-block;
+            font-size: 0.7rem;
+            background: rgba(180, 130, 160, 0.15);
+            padding: 0 10px;
+            border-radius: 30px;
+            color: #6b4e6a;
+            margin-left: 8px;
+            font-weight: 400;
+        }
+
+        /* 首页特色：快捷入口 */
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            margin-top: 6px;
+        }
+        .quick-links a {
+            background: rgba(220, 190, 210, 0.25);
+            backdrop-filter: blur(4px);
+            padding: 6px 20px;
+            border-radius: 60px;
+            text-decoration: none;
+            color: #4f3a5a;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .quick-links a:hover {
+            background: rgba(220, 180, 200, 0.4);
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(180, 130, 160, 0.15);
+        }
+
+        /* ===== 身份区 (会长/副会) ===== */
+        .identity-area {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-around;
+            gap: 16px 24px;
+            background: rgba(235, 210, 225, 0.25);
+            backdrop-filter: blur(4px);
+            border-radius: 40px;
+            padding: 14px 24px;
+            margin-top: 6px;
+            border: 1px solid rgba(255, 220, 230, 0.4);
+        }
+        .identity-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #4f3a5a;
+        }
+        .identity-item .role-badge {
+            background: #b07b92;
+            color: white;
+            padding: 2px 14px;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .identity-item .name {
+            font-weight: 600;
+            color: #3d2c46;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 2px 14px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+        }
+        .identity-item .crown {
+            font-size: 1.4rem;
+        }
+        @media (max-width: 480px) {
+            .identity-area { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
 </head>
 <body>
-<div class="announcement-wrapper">
-  <div class="card-header">
-    <h1 class="guild-name">AHC 公会</h1>
-    <div class="subhead">⚜ 王座之侧 · 永恒契约 ⚜</div>
-  </div>
-  <div class="top-nav">
-    <button class="nav-btn active" data-view="all"><span class="nav-icon">🏰</span> 主页</button>
-    <button class="nav-btn" data-view="server"><span class="nav-icon">📡</span> 服务器</button>
-    <button class="nav-btn" data-view="rules"><span class="nav-icon">📜</span> 规则</button>
-    <button class="nav-btn" data-view="buildings"><span class="nav-icon">🏗️</span> 建筑</button>
-    <button class="nav-btn" data-view="games"><span class="nav-icon">🎮</span> 游戏</button>
-  </div>
+<div class="container">
 
-  <div class="content" id="mainContent">
-    <!-- 通知横幅 -->
-    <div class="notice-banner">
-      <span class="notice-label">⚡ 战备通报</span>
-      <span class="notice-value">无 · 秩序井然</span>
-    </div>
-
-    <!-- ===== 分区：服务器 ===== -->
-    <div class="section-block" data-section="server">
-      <div class="section">
-        <div class="section-header"><span class="section-icon">📡</span><span class="section-title">服务器 · 界标</span></div>
-        <div class="info-card">
-          <div class="info-pair"><span class="info-key">入口 IP</span><span class="info-value ip-value">mcgame.me</span></div>
-          <div class="info-pair"><span class="info-key">核心版本</span><span class="info-value">Minecraft JAVA 26.1.2 · Fabric</span></div>
+    <!-- ===== 首页欢迎横幅 ===== -->
+    <div class="welcome-banner">
+        <div class="greeting">
+            🏠 欢迎来到 AHC 公会
+            <small>同心协作 · 共建生存世界</small>
         </div>
-      </div>
-    </div>
-
-    <!-- ===== 分区：进服誓约 ===== -->
-    <div class="section-block" data-section="rules">
-      <div class="section">
-        <div class="section-header"><span class="section-icon">⚔️</span><span class="section-title">进服誓约</span></div>
-        <ul class="rule-list">
-          <li>客户端须搭载 <strong>Fabric 0.19.3</strong> 加载器，保持纯净之力</li>
-          <li>推荐安装基础优化模组，以抵御卡顿与崩溃之扰</li>
-          <li>严禁任何破坏平衡之作弊模组，违者重罚</li>
-          <li>遭遇崩溃或异象，即刻禀报管理，共护秩序</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- ===== 分区：建筑奇观 ===== -->
-    <div class="section-block" data-section="buildings">
-      <div class="section">
-        <div class="section-header"><span class="section-icon">🏗️</span><span class="section-title">公会 · 奇观</span></div>
-        <div class="building-grid">
-          <div class="building-card"><span class="building-icon">🌑</span> 黑曜塔 · xht</div>
-          <div class="building-card"><span class="building-icon">🔥</span> 烈焰熔炉 · zyr</div>
-          <div class="building-card"><span class="building-icon">🐷</span> 猪灵祭坛 · zhurenta</div>
-          <div class="building-card"><span class="building-icon">🏹</span> 掠夺哨站 · xjt</div>
+        <div class="mascot">
+            🐾✨
         </div>
-      </div>
     </div>
 
-    <!-- ===== 分区：公会法典 ===== -->
-    <div class="section-block" data-section="rules">
-      <div class="section">
-        <div class="section-header"><span class="section-icon">📜</span><span class="section-title">公会法典</span></div>
-        <ul class="rule-list">
-          <li>加入公会即享自由开拓之权，然严禁熊行，违者追责至管理</li>
-          <li>公会领地内建造或改动，须事先禀告管理</li>
-          <li>遇事直询管理（除下午外常驻），私下散播流言者不予认可</li>
-          <li>大量取用公储物资，务必提前告知</li>
-          <li>外来友人可临时游历，请勿长期逗留干扰公会秩序</li>
-          <li>连续15日未现，将被除名；学业、要务可提前报备豁免</li>
-          <li>每周缴纳 <strong>150 金币</strong> 作为公会维系之资，特殊可报备，勿长期拖欠</li>
-          <li>不主动与其他公会冲突，不参与外域纷争引战</li>
-          <li>禁用作弊模组，一经发现重罚并逐出公会</li>
-          <li>成功引荐一名新成员，奖 <strong>200 金币</strong>；小号刷入不计</li>
-          <li>严禁私自挪用、拆改公共机器与储物；公会领地内禁止恶意PVP</li>
-          <li>无意损坏公共设施须及时上报，隐瞒不报将受惩戒</li>
-          <li>成员纷争由管理调解，禁止私下挑拨离间</li>
-          <li>主动退会者，不再享有任何公会公共资源之权限</li>
-          <li>公会账号禁止外借，转借产生之违规由本人承担</li>
-          <li><strong>全体成员须恪守以上所有条例，共铸辉煌</strong></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- ===== 分区：小游戏殿堂 ===== -->
-    <div class="section-block" data-section="games">
-      <div class="section">
-        <div class="section-header"><span class="section-icon">🎮</span><span class="section-title">公会 · 小游戏殿堂</span></div>
-        <div class="game-grid">
-          <!-- 游戏1：掘金矿工 -->
-          <div class="game-card">
-            <div class="game-title">⛏️ 掘金矿工 <span class="score-badge" id="goldScore">0</span></div>
-            <div class="game-area">
-              <div class="game-controls">
-                <button class="game-btn" id="mineBtn">⛏️ 挖掘</button>
-                <span class="game-hint">每次 1~5 金</span>
-              </div>
-              <div class="game-result" id="mineResult">⚡ 点击挖掘，积累财富</div>
-            </div>
-          </div>
-          <!-- 游戏2：史莱姆对决 -->
-          <div class="game-card">
-            <div class="game-title">🟢 史莱姆对决 <span class="score-badge" id="slimeScore">0</span></div>
-            <div class="game-area">
-              <div class="game-controls">
-                <button class="game-btn" id="slimeBtn">⚔️ 攻击</button>
-                <span class="game-hint">击败 +1 分</span>
-              </div>
-              <div class="game-result" id="slimeResult">👾 史莱姆出现了！</div>
-            </div>
-          </div>
-          <!-- 游戏3：末影猜词 -->
-          <div class="game-card">
-            <div class="game-title">🔮 末影猜词 <span class="score-badge" id="wordScore">0</span></div>
-            <div class="game-area">
-              <div class="game-controls">
-                <input class="game-input" id="wordInput" placeholder="输入单词" maxlength="20">
-                <button class="game-btn" id="wordBtn">📖 猜</button>
-                <button class="game-btn" id="wordHintBtn">💡 提示</button>
-              </div>
-              <div class="game-result" id="wordResult">📝 输入Minecraft单词，猜对 +1 分</div>
-            </div>
-          </div>
+    <!-- ========= 身份区 (会长/副会) ========= -->
+    <div class="identity-area">
+        <div class="identity-item">
+            <span class="crown">👑</span>
+            <span class="role-badge">会长</span>
+            <span class="name">CamilleXili</span>
         </div>
-      </div>
+        <div class="identity-item">
+            <span class="crown">⭐</span>
+            <span class="role-badge">副会</span>
+            <span class="name">HBJKG</span>
+        </div>
     </div>
 
-    <!-- ===== 底部 ===== -->
-    <div class="footer-spirit">⚜ AHC 公会 · 同心共筑，不朽世界 ⚜</div>
-    <div class="update-tag">公告更新 · 2026‑08‑24</div>
-  </div>
+    <!-- ========= 分区0：头部 + 重要通知 ========= -->
+    <div class="header-area">
+        <div class="title-group">
+            <h1>⛏️ AHC 公会</h1>
+            <div class="badge-important">
+                <span>📌</span> 重要临时通知
+            </div>
+        </div>
+        <div class="update-meta">
+            📅 公告更新：2026‑08‑20
+        </div>
+    </div>
+
+    <!-- ========= 分区1：服务器信息 ========= -->
+    <div class="section-divider">
+        <span class="label">📡 服务器 · 状态</span>
+        <span class="line"></span>
+        <span class="badge-section">在线</span>
+    </div>
+    <div class="section-card">
+        <div class="section-title">
+            <span>📢</span> 服务器信息
+        </div>
+        <div class="server-info-wrap">
+            <div class="server-ip">
+                mcgame.me <small>JAVA 26.1.2 · Fabric</small>
+            </div>
+            <span class="badge-fabric">Fabric 0.19.3 必备</span>
+        </div>
+        <div style="margin-top: 12px; background: rgba(225, 200, 215, 0.3); backdrop-filter: blur(2px); border-radius: 30px; padding: 6px 18px; display: inline-block; border:1px solid rgba(255,255,255,0.2);">
+            <span style="font-weight: 500;">版本:</span> Minecraft JAVA 26.1.2 Fabric
+        </div>
+    </div>
+
+    <!-- ========= 分区2：进服须知 + 公会建筑 (两列) ========= -->
+    <div class="section-divider">
+        <span class="label">🚪 进服 · 建筑</span>
+        <span class="line"></span>
+        <span class="badge-section">指引</span>
+    </div>
+    <div class="grid-2col">
+        <!-- 进服须知 -->
+        <div class="section-card" style="margin-top: 0;">
+            <div class="section-title" style="font-size: 1.2rem; border-left-color: #d9a3b7;">
+                <span>⚠️</span> 进服须知
+            </div>
+            <ul class="rule-list" style="list-style: none; padding-left: 0;">
+                <li><strong>1.</strong> 客户端必须安装 <span class="inline-code">Fabric</span> 加载器，版本 <strong>0.19.3</strong></li>
+                <li><strong>2.</strong> 建议安装基础优化模组，减少卡顿崩溃</li>
+                <li><strong>3.</strong> 禁止客户端安装破坏平衡的作弊类模组</li>
+                <li><strong>4.</strong> 遇到崩溃、BUG请及时向管理反馈</li>
+            </ul>
+        </div>
+
+        <!-- 公会建筑 -->
+        <div class="section-card" style="margin-top: 0;">
+            <div class="section-title" style="font-size: 1.2rem; border-left-color: #c49a7a;">
+                <span>🏗️</span> 公会建筑
+            </div>
+            <ul class="building-list" style="list-style: none; padding-left: 0;">
+                <li><strong>小黑塔</strong>  ·  xht</li>
+                <li><strong>烈焰人农场</strong>  ·  zyr</li>
+                <li><strong>猪人塔</strong>  ·  zhurenta</li>
+                <li><strong>掠夺塔</strong>  ·  xjt</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ========= 分区3：公会规则 (完整) ========= -->
+    <div class="section-divider">
+        <span class="label">📜 公会规则</span>
+        <span class="line"></span>
+        <span class="badge-section">共16条</span>
+    </div>
+    <div class="section-card" style="margin-top: 0;">
+        <div class="section-title" style="border-left-color: #c49a7a;">
+            <span>⚖️</span> 全体成员守则
+        </div>
+        <div style="max-height: 500px; overflow-y: auto; padding-right: 4px;">
+            <ul class="rule-list rule-compact">
+                <li>加入公会可以自由游玩，但禁止熊行为，否则管理会被追责</li>
+                <li>在公会领地建造、改动设施，需要提前告知管理</li>
+                <li>遇到问题直接找管理，管理除下午以外基本在线；不咨询就散播小团体言论不予认可</li>
+                <li>大量取用物资必须提前和管理说明</li>
+                <li>外来朋友可以临时游玩，请勿长期逗留干扰公会</li>
+                <li>连续15天未上线将会被踢出，学业、工作特殊情况提前报备除外</li>
+                <li>每周上交150金币作为公会维护经费，特殊情况可报备，请勿长期拖欠</li>
+                <li>不主动与其他公会发生冲突，不参与外部凑热闹引战</li>
+                <li>禁止使用作弊模组，一经发现重罚并直接踢出公会</li>
+                <li>成功招入一名新公会成员，奖励200金币；小号刷入会不计奖励</li>
+                <li>禁止私自挪用、拆改公会公共机器与储物物资，公会领地禁止恶意PVP坑害队友</li>
+                <li>无意损坏公会公共设施请及时上报，隐瞒不报造成损失将予以处罚</li>
+                <li>成员发生矛盾交由管理调解，禁止私下到处挑起矛盾</li>
+                <li>主动退会之后，不再享有公会全部公共资源使用权限</li>
+                <li>公会账号禁止转借他人，转借账号产生的违规行为由账号本人负责</li>
+                <li>全体成员必须遵守以上全部公会条例</li>
+            </ul>
+        </div>
+        <!-- 招新奖励高亮 -->
+        <div class="highlight-box">
+            <span class="label">🎯 招新奖励</span>
+            <span>成功招入一名新成员 <strong>奖励200金币</strong>  ·  小号不计</span>
+        </div>
+    </div>
+
+    <!-- ========= 分区4：管理 & 额外信息 ========= -->
+    <div class="section-divider">
+        <span class="label">🕒 管理 · 动态</span>
+        <span class="line"></span>
+        <span class="badge-section">联络</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-top: 4px; padding: 0 4px;">
+        <div style="font-size: 0.9rem; background: rgba(225, 200, 215, 0.3); backdrop-filter: blur(4px); padding: 6px 20px; border-radius: 60px; border:1px solid rgba(255,255,255,0.2);">
+            ⏳ 管理在线：除下午以外基本在线
+        </div>
+        <div style="font-size: 0.9rem; color: #5b4a5e; background: rgba(235, 215, 225, 0.2); padding: 4px 16px; border-radius: 60px;">
+            📆 最后更新 2026-08-20
+        </div>
+    </div>
+
+    <!-- ========= 分区5：首页快捷入口（仅首页展示） ========= -->
+    <div class="section-divider" style="margin-top: 28px;">
+        <span class="label">🔗 快捷入口</span>
+        <span class="line"></span>
+        <span class="badge-section">导航</span>
+    </div>
+    <div class="quick-links" style="padding: 4px 0 12px 0;">
+        <a href="#">📋 公会规则</a>
+        <a href="#">🏗️ 建筑一览</a>
+        <a href="#">📢 服务器状态</a>
+        <!-- “加入我们” 按钮已绑定跳转链接 -->
+        <a href="https://qm.qq.com/q/EcDGTQb7LW" target="_blank">🧑‍🤝‍🧑 加入我们</a>
+    </div>
+
+    <!-- ========= 分区6：公会精神标语 ========= -->
+    <div class="section-divider" style="margin-top: 16px;">
+        <span class="line"></span>
+        <span class="label" style="background: rgba(220, 180, 200, 0.3);">✨ 公会精神</span>
+        <span class="line"></span>
+    </div>
+    <div class="motto" style="margin-top: 8px;">
+        <span>✨ AHC公会 ｜ 同心协作，共建生存世界 ✨</span>
+    </div>
+
+    <!-- 底部更新提示 -->
+    <div class="footer-note">
+        公告更新：2026‑08‑20
+    </div>
+
 </div>
-
-<script>
-  (function() {
-    // 导航切换
-    const navBtns = document.querySelectorAll('.nav-btn');
-    const sections = document.querySelectorAll('.section-block');
-    function showAll() { sections.forEach(sec => sec.style.display = 'block'); }
-    function filterView(view) {
-      if (view === 'all') { showAll(); return; }
-      sections.forEach(sec => {
-        const secView = sec.dataset.section;
-        sec.style.display = (secView === view) ? 'block' : 'none';
-      });
-    }
-    function setActive(activeBtn) {
-      navBtns.forEach(btn => btn.classList.remove('active'));
-      activeBtn.classList.add('active');
-    }
-    navBtns.forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        const view = this.dataset.view;
-        filterView(view);
-        setActive(this);
-      });
-    });
-    showAll();
-    const homeBtn = document.querySelector('.nav-btn[data-view="all"]');
-    if (homeBtn) setActive(homeBtn);
-
-    // ===== 游戏逻辑 =====
-    // 1. 掘金矿工
-    let gold = 0;
-    const goldScore = document.getElementById('goldScore');
-    const mineResult = document.getElementById('mineResult');
-    document.getElementById('mineBtn').addEventListener('click', function() {
-      const nugget = Math.floor(Math.random() * 5) + 1;
-      gold += nugget;
-      goldScore.textContent = gold;
-      mineResult.textContent = `⛏️ 挖到 ${nugget} 金！ 总财富: ${gold}`;
-    });
-
-    // 2. 史莱姆对决
-    let slimeKills = 0;
-    const slimeScore = document.getElementById('slimeScore');
-    const slimeResult = document.getElementById('slimeResult');
-    document.getElementById('slimeBtn').addEventListener('click', function() {
-      const hit = Math.random() > 0.3;
-      if (hit) {
-        slimeKills++;
-        slimeScore.textContent = slimeKills;
-        slimeResult.textContent = `⚔️ 一剑击杀！ 战绩: ${slimeKills}`;
-      } else {
-        slimeResult.textContent = `💨 史莱姆躲开了！ 再试一次`;
-      }
-    });
-
-    // 3. 末影猜词
-    const words = ['ender', 'dragon', 'nether', 'beacon', 'elytra', 'shulker', 'totem', 'potion', 'enchant', 'anvil'];
-    let currentWord = words[Math.floor(Math.random() * words.length)];
-    let wordScore
+<!-- 容器结束 -->
+</body>
+</html>
