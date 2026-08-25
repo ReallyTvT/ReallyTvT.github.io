@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AHC公会 · 首页 · 身份区</title>
-    <!-- 可爱风格 + 身份区 + 首页欢迎 -->
+    <!-- 可爱风格 + 身份区 + 首页欢迎 + 图片点击放大 -->
     <style>
         * {
             margin: 0;
@@ -511,6 +511,7 @@
             border: 1px solid rgba(255, 220, 230, 0.5);
             box-shadow: 0 4px 12px rgba(200, 150, 170, 0.1);
             transition: 0.2s;
+            cursor: pointer;
         }
         .building-card:hover {
             transform: translateY(-4px);
@@ -522,6 +523,10 @@
             object-fit: cover;
             display: block;
             border-bottom: 2px solid rgba(220, 190, 210, 0.5);
+            transition: filter 0.2s;
+        }
+        .building-card:hover img {
+            filter: brightness(0.96);
         }
         .building-card .card-caption {
             padding: 8px 12px;
@@ -529,6 +534,107 @@
             font-weight: 500;
             color: #5b3e5a;
             text-align: center;
+        }
+
+        /* ===== 图片放大遮罩 (Lightbox) ===== */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 20, 30, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .lightbox-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .lightbox-overlay .lightbox-content {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: 32px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 2px rgba(255, 220, 230, 0.3) inset;
+            background: rgba(255, 248, 250, 0.2);
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.25s ease;
+            transform: scale(0.96);
+        }
+        .lightbox-overlay.active .lightbox-content {
+            transform: scale(1);
+        }
+        .lightbox-overlay .lightbox-content img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 75vh;
+            border-radius: 24px;
+            display: block;
+            object-fit: contain;
+            background: #1a1a2a;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .lightbox-overlay .lightbox-caption {
+            margin-top: 12px;
+            color: #f5eaf0;
+            font-size: 1.1rem;
+            font-weight: 500;
+            background: rgba(40, 30, 40, 0.4);
+            backdrop-filter: blur(4px);
+            padding: 6px 24px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            letter-spacing: 0.5px;
+        }
+        .lightbox-overlay .close-btn {
+            position: absolute;
+            top: 28px;
+            right: 32px;
+            font-size: 2.4rem;
+            color: rgba(255, 240, 245, 0.8);
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.15);
+            width: 52px;
+            height: 52px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.15s;
+            font-weight: 300;
+            line-height: 1;
+        }
+        .lightbox-overlay .close-btn:hover {
+            background: rgba(200, 70, 90, 0.4);
+            color: #fff;
+            transform: scale(1.05);
+            border-color: rgba(255, 200, 210, 0.5);
+        }
+        @media (max-width: 600px) {
+            .lightbox-overlay .close-btn {
+                top: 16px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
+                font-size: 1.8rem;
+            }
+            .lightbox-overlay .lightbox-caption {
+                font-size: 0.95rem;
+                padding: 4px 16px;
+            }
         }
     </style>
 </head>
@@ -628,39 +734,39 @@
         </div>
     </div>
 
-    <!-- ========= 新增：建筑图片展示区 ========= -->
+    <!-- ========= 新增：建筑图片展示区 (点击放大) ========= -->
     <div class="section-divider">
         <span class="label">🖼️ 公会建筑图鉴</span>
         <span class="line"></span>
     </div>
     <div class="section-card">
-        <div class="building-gallery">
-            <div class="building-card">
-                <img src="imagesimg1.jpg" alt="建筑1">
+        <div class="building-gallery" id="gallery">
+            <div class="building-card" data-caption="❤️ 爱心信标">
+                <img src="imagesimg1.jpg" alt="建筑1" loading="lazy">
                 <div class="card-caption">❤️ 爱心信标</div>
             </div>
-            <div class="building-card">
-                <img src="imagesimg2.jpg" alt="建筑2">
+            <div class="building-card" data-caption="🏯 琼云阁">
+                <img src="imagesimg2.jpg" alt="建筑2" loading="lazy">
                 <div class="card-caption">🏯 琼云阁</div>
             </div>
-            <div class="building-card">
-                <img src="imagesimg3.jpg" alt="建筑3">
+            <div class="building-card" data-caption="📦 叶枫大别墅">
+                <img src="imagesimg3.jpg" alt="建筑3" loading="lazy">
                 <div class="card-caption">📦 叶枫大别墅</div>
             </div>
-            <div class="building-card">
-                <img src="imagesimg4.jpg" alt="建筑4">
+            <div class="building-card" data-caption="🍓 西红柿小猫">
+                <img src="imagesimg4.jpg" alt="建筑4" loading="lazy">
                 <div class="card-caption">🍓 西红柿小猫</div>
             </div>
-            <div class="building-card">
-                <img src="imagesimg5.jpg" alt="建筑5">
+            <div class="building-card" data-caption="🦑 少女的内心世界">
+                <img src="imagesimg5.jpg" alt="建筑5" loading="lazy">
                 <div class="card-caption">🦑 少女的内心世界</div>
             </div>
-            <div class="building-card">
-                <img src="imagesimg6.jpg" alt="建筑6">
+            <div class="building-card" data-caption="⛪ 大教堂">
+                <img src="imagesimg6.jpg" alt="建筑6" loading="lazy">
                 <div class="card-caption">⛪ 大教堂</div>
             </div>
-            <div class="building-card">
-                <img src="imagesimg7.jpg" alt="建筑7">
+            <div class="building-card" data-caption="🏡 海上别墅">
+                <img src="imagesimg7.jpg" alt="建筑7" loading="lazy">
                 <div class="card-caption">🏡 海上别墅</div>
             </div>
         </div>
@@ -749,5 +855,63 @@
 
 </div>
 <!-- 容器结束 -->
+
+<!-- ===== 图片放大 Lightbox ===== -->
+<div class="lightbox-overlay" id="lightbox">
+    <div class="lightbox-content">
+        <img id="lightboxImg" src="" alt="放大图片">
+        <div class="lightbox-caption" id="lightboxCaption">❤️ 爱心信标</div>
+    </div>
+    <div class="close-btn" id="lightboxClose">✕</div>
+</div>
+
+<script>
+    (function() {
+        const gallery = document.getElementById('gallery');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxCaption = document.getElementById('lightboxCaption');
+        const closeBtn = document.getElementById('lightboxClose');
+
+        // 所有 .building-card 点击打开
+        const cards = gallery.querySelectorAll('.building-card');
+        cards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                const img = this.querySelector('img');
+                const caption = this.dataset.caption || this.querySelector('.card-caption')?.innerText || '建筑';
+                if (img) {
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt || '建筑图片';
+                    lightboxCaption.textContent = caption;
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // 关闭函数
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // 点击关闭按钮
+        closeBtn.addEventListener('click', closeLightbox);
+
+        // 点击遮罩背景关闭 (点击lightbox-content本身不关闭，但点击overlay背景关闭)
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // ESC 键关闭
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+    })();
+</script>
 </body>
 </html>
