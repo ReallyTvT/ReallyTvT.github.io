@@ -496,6 +496,40 @@
         @media (max-width: 480px) {
             .identity-area { flex-direction: column; align-items: flex-start; }
         }
+
+        /* ===== 新增：建筑图片展示区 ===== */
+        .building-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .building-card {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 220, 230, 0.5);
+            box-shadow: 0 4px 12px rgba(200, 150, 170, 0.1);
+            transition: 0.2s;
+        }
+        .building-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(200, 150, 170, 0.2);
+        }
+        .building-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 2px solid rgba(220, 190, 210, 0.5);
+        }
+        .building-card .card-caption {
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #5b3e5a;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -591,6 +625,44 @@
                 <li><strong>猪人塔</strong>  ·  zhurenta</li>
                 <li><strong>掠夺塔</strong>  ·  xjt</li>
             </ul>
+        </div>
+    </div>
+
+    <!-- ========= 新增：建筑图片展示区 ========= -->
+    <div class="section-divider">
+        <span class="label">🖼️ 公会建筑图鉴</span>
+        <span class="line"></span>
+    </div>
+    <div class="section-card">
+        <div class="building-gallery">
+            <div class="building-card">
+                <img src="imagesimg1.jpg" alt="建筑1">
+                <div class="card-caption">❤️ 爱心信标</div>
+            </div>
+            <div class="building-card">
+                <img src="imagesimg2.jpg" alt="建筑2">
+                <div class="card-caption">🏯 琼云阁</div>
+            </div>
+            <div class="building-card">
+                <img src="imagesimg3.jpg" alt="建筑3">
+                <div class="card-caption">📦 叶枫大别墅</div>
+            </div>
+            <div class="building-card">
+                <img src="imagesimg4.jpg" alt="建筑4">
+                <div class="card-caption">🍓 西红柿小猫</div>
+            </div>
+            <div class="building-card">
+                <img src="imagesimg5.jpg" alt="建筑5">
+                <div class="card-caption">🦑 少女的内心世界</div>
+            </div>
+            <div class="building-card">
+                <img src="imagesimg6.jpg" alt="建筑6">
+                <div class="card-caption">⛪ 大教堂</div>
+            </div>
+            <div class="building-card">
+                <img src="imagesimg7.jpg" alt="建筑7">
+                <div class="card-caption">🏡 海上别墅</div>
+            </div>
         </div>
     </div>
 
