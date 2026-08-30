@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AHC公会 · 首页 · 身份区</title>
-    <!-- 可爱风格 + 身份区 + 首页欢迎 + 图片点击放大 -->
+    <!-- 可爱风格 + 身份区 + 首页欢迎 + 图片点击放大 + 成员名单 -->
     <style>
         * {
             margin: 0;
@@ -497,6 +497,35 @@
             .identity-area { flex-direction: column; align-items: flex-start; }
         }
 
+        /* ===== 成员名单样式 ===== */
+        .member-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 18px;
+            padding: 8px 4px 4px 4px;
+            justify-content: center;
+        }
+        .member-tag {
+            background: rgba(225, 200, 215, 0.4);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 220, 230, 0.5);
+            padding: 4px 18px;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #4f3a5a;
+            box-shadow: 0 2px 8px rgba(200, 150, 170, 0.06);
+            transition: 0.1s;
+        }
+        .member-tag:hover {
+            background: rgba(225, 190, 210, 0.5);
+            transform: scale(1.02);
+        }
+        .member-tag .highlight {
+            color: #b35d7a;
+            font-weight: 600;
+        }
+
         /* ===== 新增：建筑图片展示区 ===== */
         .building-gallery {
             display: grid;
@@ -666,6 +695,32 @@
         </div>
     </div>
 
+    <!-- ========= 🧑‍🤝‍🧑 成员名单 ========= -->
+    <div class="section-divider" style="margin-top: 24px;">
+        <span class="label">🧑‍🤝‍🧑 成员名单</span>
+        <span class="line"></span>
+        <span class="badge-section">7位</span>
+    </div>
+    <div class="section-card" style="margin-top: 0;">
+        <div class="member-list">
+            <span class="member-tag"><span class="highlight">★</span> CamilleXili</span>
+            <span class="member-tag"><span class="highlight">★</span> HBJKG</span>
+            <span class="member-tag">Really_TvT</span>
+            <span class="member-tag">Cloudwindqq</span>
+            <span class="member-tag">wsyhhh666</span>
+            <span class="member-tag">SalmonAsp4830</span>
+            <span class="member-tag">NekoAlice</span>
+            <span class="member-tag">Ricardo_M_L_u</span>
+            <span class="member-tag">happyJIJI</span>
+            <span class="member-tag">xha_123</span>
+            <span class="member-tag">xiu_520</span>
+            <span class="member-tag">uuin7</span>
+            <span class="member-tag">zinc_XIE</span>
+            <span class="member-tag">kafei_6</span>
+            <span class="member-tag">Z6_n</span>
+        </div>
+    </div>
+
     <!-- ========= 分区0：头部 + 重要通知 ========= -->
     <div class="header-area">
         <div class="title-group">
@@ -730,7 +785,6 @@
                 <li><strong>烈焰人农场</strong>  ·  zyr</li>
                 <li><strong>猪人塔</strong>  ·  zhurenta</li>
                 <li><strong>掠夺塔</strong>  ·  xjt</li>
-                <li><strong>贝厂</strong>  ·  beichang</li>
             </ul>
         </div>
     </div>
@@ -769,6 +823,10 @@
             <div class="building-card" data-caption="🏡 海上别墅">
                 <img src="imagesimg7.jpg" alt="建筑7" loading="lazy">
                 <div class="card-caption">🏡 海上别墅</div>
+            </div>
+            <div class="building-card" data-caption="🏠 樱花小屋">
+                <img src="imagesimg8.jpg" alt="建筑8" loading="lazy">
+                <div class="card-caption">🏠 樱花小屋</div>
             </div>
         </div>
     </div>
